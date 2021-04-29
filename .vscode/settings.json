@@ -1,0 +1,21 @@
+{
+    "files.associations": {
+        "string": "cpp",
+        "iostream": "cpp",
+        "fstream": "cpp",
+        "atomic": "cpp",
+        "algorithm": "c",
+        "sstream": "c",
+        "xiosbase": "c",
+        "config.h": "c",
+        "fcntl.h": "c",
+        "initializer_list": "c",
+        "type_traits": "c",
+        "xstring": "c",
+        "xtree": "c",
+        "xutility": "c",
+        "map": "cpp",
+        "vector": "cpp",
+        "utility": "cpp"
+    }
+}

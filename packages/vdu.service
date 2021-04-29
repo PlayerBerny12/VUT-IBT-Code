@@ -1,0 +1,11 @@
+[Unit]
+Description=VDU App Fuse Service
+
+[Service]
+User=root
+Type=forking
+ExecStart=/mnt/code/vdu-app-fuse /mnt/fuse
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

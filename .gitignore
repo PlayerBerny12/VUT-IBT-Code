@@ -1,0 +1,10 @@
+# objcet file folder
+obj/*
+
+# executables
+vdu-app
+vdu-app-fuse
+vdu-app-tests
+
+# doxygen generated documentation
+docs/generated_docs_html
