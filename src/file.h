@@ -11,47 +11,48 @@
 #define VDU_FILE_H
 
 #include "api.h"
-#include "config.h"
 #include "database.h"
 #include <fstream>
+#include <iomanip>
 #include <iostream>
+#include <map>
 #include "notification.h"
+#include <openssl/md5.h>
 #include "string.h"
+#include "utils.h"
 
 using namespace std;
 
+class API;
 class Database;
 
 class File
 {
 private:
-    API& api;    
-    Database& database;
-    Notification& notification;
+    API &api;
+    Database &database;
+    Notification &notification;
 
     string get_full_path();
+    int validate_file(unsigned char *content, size_t size);
     void map_header_vales(map<string, string> header_values);
     int save_file(char *content);
     void open_file();
+    int download();
 
-public:    
+public:
     string allow;
-    string content_encoding;
-    string content_length;
     string content_location;
     string content_checksum;
     string content_type;
     string expires;
-    string date;
-    string last_modified;
     string etag;
 
     string access_token;
 
-    File(API& api, Database& database, Notification& notification);
-    ~File();  
+    File(API &api, Database &database, Notification &notification);
+    ~File();
     int process_fake_file(const string path);
-    int download();
 };
 
 #endif

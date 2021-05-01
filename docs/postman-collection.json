@@ -1,0 +1,1506 @@
+{
+	"info": {
+		"_postman_id": "4e1346c8-47a8-4f1f-8bd2-481304cc4ee2",
+		"name": "VDU Mock Collection",
+		"description": "Testing API for my Bachelor work...",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "auth/key",
+			"item": [
+				{
+					"name": "Authorization token (key) renewal.",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"description": "(Required) The last auth key token.",
+								"key": "X-Api-Key",
+								"value": "<string>",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/auth/key",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"key"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Invalid X-API-Key.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "(Required) The last auth key token.",
+										"key": "X-Api-Key",
+										"value": "<string>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/auth/key",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"auth",
+										"key"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Date",
+									"value": "",
+									"description": "The date and time at which the message was originated (in \"HTTP-date\" format as defined by RFC 7231 Date/Time Formats)."
+								},
+								{
+									"key": "Expires",
+									"value": "Fri, 7 May 2021 13:12:47 GMT",
+									"description": "Gives the date/time after which the response is considered stale (in \"HTTP-date\" format as defined by RFC 7231)."
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "The success.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "(Required) The last auth key token.",
+										"key": "X-Api-Key",
+										"value": "<string>",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/auth/key",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"auth",
+										"key"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "X-Api-Key",
+									"value": "s5adg65as5nd99fuh",
+									"description": "The new auth key token."
+								},
+								{
+									"key": "Date",
+									"value": "",
+									"description": "The date and time at which the message was originated (in \"HTTP-date\" format as defined by RFC 7231 Date/Time Formats)."
+								},
+								{
+									"key": "Expires",
+									"value": "Fri, 7 May 2021 13:12:47 GMT",
+									"description": "Gives the date/time after which the response is considered stale (in \"HTTP-date\" format as defined by RFC 7231)."
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Generate a new authorization token (key) for the first time.",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"description": "(Required) The email address/username/etc. of the user making the request.",
+								"key": "From",
+								"value": "<string>"
+							},
+							{
+								"key": "Content-Type",
+								"value": "text/plain"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\"<string>\""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/key",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"key"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Invalid From and/or the user’s client secret",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "(Required) The email address/username/etc. of the user making the request.",
+										"key": "From",
+										"value": "<string>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "\"'StrongClientSecret@123' //can be an empty in the case of client certificate/TLS authentication\""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/auth/key",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"auth",
+										"key"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Date",
+									"value": "",
+									"description": "The date and time at which the message was originated (in \"HTTP-date\" format as defined by RFC 7231 Date/Time Formats)."
+								},
+								{
+									"key": "Expires",
+									"value": "Fri, 7 May 2021 13:12:47 GMT",
+									"description": "Gives the date/time after which the response is considered stale (in \"HTTP-date\" format as defined by RFC 7231)."
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "The success.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "(Required) The email address/username/etc. of the user making the request.",
+										"key": "From",
+										"value": "<string>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "\"'StrongClientSecret@123' //can be an empty in the case of client certificate/TLS authentication\""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/auth/key",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"auth",
+										"key"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "X-Api-Key",
+									"value": "t12asd3maa123gko",
+									"description": "The new auth key token."
+								},
+								{
+									"key": "Date",
+									"value": "",
+									"description": "The date and time at which the message was originated (in \"HTTP-date\" format as defined by RFC 7231 Date/Time Formats)."
+								},
+								{
+									"key": "Expires",
+									"value": "Fri, 7 May 2021 13:12:47 GMT",
+									"description": "Gives the date/time after which the response is considered stale (in \"HTTP-date\" format as defined by RFC 7231)."
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Authorization token (key) invalidation.",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"description": "(Required) The last auth key token.",
+								"key": "X-Api-Key",
+								"value": "<string>"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/auth/key",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"key"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Invalid From and/or the user’s client secret.",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"description": "(Required) The last auth key token.",
+										"key": "X-Api-Key",
+										"value": "<string>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/auth/key",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"auth",
+										"key"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Date",
+									"value": "non reprehenderit in nostrud",
+									"description": "The date and time at which the message was originated (in \"HTTP-date\" format as defined by RFC 7231 Date/Time Formats)."
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "The success.",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"description": "(Required) The last auth key token.",
+										"key": "X-Api-Key",
+										"value": "<string>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/auth/key",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"auth",
+										"key"
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Date",
+									"value": "non reprehenderit in nostrud",
+									"description": "The date and time at which the message was originated (in \"HTTP-date\" format as defined by RFC 7231 Date/Time Formats)."
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "file/{file-access-token}",
+			"item": [
+				{
+					"name": "Get the content of a file available by the given access token.",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"description": "(Required) The last auth key token.",
+								"key": "X-Api-Key",
+								"value": "<string>"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/file/:file-access-token",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"file",
+								":file-access-token"
+							],
+							"variable": [
+								{
+									"key": "file-access-token",
+									"value": "<string>",
+									"type": "string",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Invalid X-API-Key.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "(Required) The last auth key token.",
+										"key": "X-Api-Key",
+										"value": "<string>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/file/:file-access-token",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"file",
+										":file-access-token"
+									],
+									"variable": [
+										{
+											"key": "file-access-token"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Date",
+									"value": "",
+									"description": "The date and time at which the message was originated (in \"HTTP-date\" format as defined by RFC 7231 Date/Time Formats)."
+								},
+								{
+									"key": "Expires",
+									"value": "Fri, 7 May 2021 13:12:47 GMT",
+									"description": "Gives the date/time after which the response is considered stale so its new version cannot be posted (in \"HTTP-date\" format as defined by RFC 7231)."
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "The requested resource by the file-access-token could not be found.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "(Required) The last auth key token.",
+										"key": "X-Api-Key",
+										"value": "<string>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/file/:file-access-token",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"file",
+										":file-access-token"
+									],
+									"variable": [
+										{
+											"key": "file-access-token"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Date",
+									"value": "",
+									"description": "The date and time at which the message was originated (in \"HTTP-date\" format as defined by RFC 7231 Date/Time Formats)."
+								},
+								{
+									"key": "Expires",
+									"value": "Fri, 7 May 2021 13:12:47 GMT",
+									"description": "Gives the date/time after which the response is considered stale so its new version cannot be posted (in \"HTTP-date\" format as defined by RFC 7231)."
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "A request method is not supported for the requested resource, i.e., the resource is write-only (could be read before, but cannot be read now).",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "(Required) The last auth key token.",
+										"key": "X-Api-Key",
+										"value": "<string>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/file/:file-access-token",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"file",
+										":file-access-token"
+									],
+									"variable": [
+										{
+											"key": "file-access-token"
+										}
+									]
+								}
+							},
+							"status": "Method Not Allowed",
+							"code": 405,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Date",
+									"value": "",
+									"description": "The date and time at which the message was originated (in \"HTTP-date\" format as defined by RFC 7231 Date/Time Formats)."
+								},
+								{
+									"key": "Expires",
+									"value": "Fri, 7 May 2021 13:12:47 GMT",
+									"description": "Gives the date/time after which the response is considered stale so its new version cannot be posted (in \"HTTP-date\" format as defined by RFC 7231)."
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "The client did not produce a request within the time that the server was prepared to wait for the upload.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "(Required) The last auth key token.",
+										"key": "X-Api-Key",
+										"value": "<string>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/file/:file-access-token",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"file",
+										":file-access-token"
+									],
+									"variable": [
+										{
+											"key": "file-access-token"
+										}
+									]
+								}
+							},
+							"status": "Request Timeout",
+							"code": 408,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Date",
+									"value": "",
+									"description": "The date and time at which the message was originated (in \"HTTP-date\" format as defined by RFC 7231 Date/Time Formats)."
+								},
+								{
+									"key": "Expires",
+									"value": "Fri, 7 May 2021 13:12:47 GMT",
+									"description": "Gives the date/time after which the response is considered stale so its new version cannot be posted (in \"HTTP-date\" format as defined by RFC 7231)."
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "The success.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "(Required) The last auth key token.",
+										"key": "X-Api-Key",
+										"value": "<string>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/file/:file-access-token",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"file",
+										":file-access-token"
+									],
+									"variable": [
+										{
+											"key": "file-access-token"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Allow",
+									"value": "GET",
+									"description": "Valid methods for a specified resource (GET for read-only, POST for write-only, GET POST for the ability to read multiple times and also write)."
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "",
+									"description": "The type of encoding used on the data."
+								},
+								{
+									"key": "Content-Length",
+									"value": "",
+									"description": "The length of the response body in octets (8-bit bytes)."
+								},
+								{
+									"key": "Content-Location",
+									"value": "Test Filename",
+									"description": "An alternate location for the returned data (a filename)."
+								},
+								{
+									"key": "Content-MD5",
+									"value": "e0642264a62cafede3e255c44f561449",
+									"description": "A Base64-encoded binary MD5 sum of the content of the response."
+								},
+								{
+									"key": "Date",
+									"value": "",
+									"description": "The date and time at which the message was originated (in \"HTTP-date\" format as defined by RFC 7231 Date/Time Formats)."
+								},
+								{
+									"key": "Expires",
+									"value": "Fri, 7 May 2021 13:12:47 GMT",
+									"description": "Gives the date/time after which the response is considered stale so its new version cannot be posted (in \"HTTP-date\" format as defined by RFC 7231)."
+								},
+								{
+									"key": "Last-Modified",
+									"value": "Fri, 30 Apr 2021 11:39:57 GMT",
+									"description": "The last modified date for the requested object (in \"HTTP-date\" format as defined by RFC 7231)."
+								},
+								{
+									"key": "ETag",
+									"value": "",
+									"description": "An identifier for a specific version of a resource, i.e., a version number."
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": "conent of requested file"
+						}
+					]
+				},
+				{
+					"name": "Post/upload the content of a file available by the given access token.",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"description": "(Required) The last auth key token.",
+								"key": "X-Api-Key",
+								"value": "<string>"
+							},
+							{
+								"description": "(Required) The type of encoding used on the data.",
+								"key": "Content-Encoding",
+								"value": "<string>"
+							},
+							{
+								"description": "(Required) The length of the request body in octets (8-bit bytes).",
+								"key": "Content-Length",
+								"value": "<string>"
+							},
+							{
+								"description": "(Required) An alternate location for the data (a new filename if renamed by the client).",
+								"key": "Content-Location",
+								"value": "<string>"
+							},
+							{
+								"description": "(Required) A Base64-encoded binary MD5 sum of the content of the request.",
+								"key": "Content-MD5",
+								"value": "<string>"
+							},
+							{
+								"description": "(Required) The MIME type of this content.",
+								"key": "Content-Type",
+								"value": "<string>"
+							},
+							{
+								"key": "Content-Type",
+								"value": "*/*"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\"<string>\""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/file/:file-access-token",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"file",
+								":file-access-token"
+							],
+							"variable": [
+								{
+									"key": "file-access-token",
+									"value": "<string>",
+									"type": "string",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "The success and the file access token remains valid.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "(Required) The last auth key token.",
+										"key": "X-Api-Key",
+										"value": "<string>"
+									},
+									{
+										"description": "(Required) The type of encoding used on the data.",
+										"key": "Content-Encoding",
+										"value": "<string>"
+									},
+									{
+										"description": "(Required) The length of the request body in octets (8-bit bytes).",
+										"key": "Content-Length",
+										"value": "<string>"
+									},
+									{
+										"description": "(Required) An alternate location for the data (a new filename if renamed by the client).",
+										"key": "Content-Location",
+										"value": "<string>"
+									},
+									{
+										"description": "(Required) A Base64-encoded binary MD5 sum of the content of the request.",
+										"key": "Content-MD5",
+										"value": "<string>"
+									},
+									{
+										"description": "(Required) The MIME type of this content.",
+										"key": "Content-Type",
+										"value": "<string>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "\"'conent of uploaded file'\""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/file/:file-access-token",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"file",
+										":file-access-token"
+									],
+									"variable": [
+										{
+											"key": "file-access-token"
+										}
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Allow",
+									"value": "GET",
+									"description": "Valid methods for a specified resource (GET for read-only, POST for write-only, GET POST for the ability to read multiple times and also write)."
+								},
+								{
+									"key": "Date",
+									"value": "",
+									"description": "The date and time at which the message was originated (in \"HTTP-date\" format as defined by RFC 7231 Date/Time Formats)."
+								},
+								{
+									"key": "Expires",
+									"value": "Fri, 7 May 2021 13:12:47 GMT",
+									"description": "Gives the date/time after which the response is considered stale so its new version cannot be posted (in \"HTTP-date\" format as defined by RFC 7231)."
+								},
+								{
+									"key": "ETag",
+									"value": "",
+									"description": "An identifier for a specific version of a resource, i.e., a version number."
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "The success and the file access token was invalidated.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "(Required) The last auth key token.",
+										"key": "X-Api-Key",
+										"value": "<string>"
+									},
+									{
+										"description": "(Required) The type of encoding used on the data.",
+										"key": "Content-Encoding",
+										"value": "<string>"
+									},
+									{
+										"description": "(Required) The length of the request body in octets (8-bit bytes).",
+										"key": "Content-Length",
+										"value": "<string>"
+									},
+									{
+										"description": "(Required) An alternate location for the data (a new filename if renamed by the client).",
+										"key": "Content-Location",
+										"value": "<string>"
+									},
+									{
+										"description": "(Required) A Base64-encoded binary MD5 sum of the content of the request.",
+										"key": "Content-MD5",
+										"value": "<string>"
+									},
+									{
+										"description": "(Required) The MIME type of this content.",
+										"key": "Content-Type",
+										"value": "<string>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "\"'conent of uploaded file'\""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/file/:file-access-token",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"file",
+										":file-access-token"
+									],
+									"variable": [
+										{
+											"key": "file-access-token"
+										}
+									]
+								}
+							},
+							"status": "Reset Content",
+							"code": 205,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Allow",
+									"value": "GET",
+									"description": "Valid methods for a specified resource (GET for read-only, POST for write-only, GET POST for the ability to read multiple times and also write)."
+								},
+								{
+									"key": "Date",
+									"value": "",
+									"description": "The date and time at which the message was originated (in \"HTTP-date\" format as defined by RFC 7231 Date/Time Formats)."
+								},
+								{
+									"key": "Expires",
+									"value": "Fri, 7 May 2021 13:12:47 GMT",
+									"description": "Gives the date/time after which the response is considered stale so its new version cannot be posted (in \"HTTP-date\" format as defined by RFC 7231)."
+								},
+								{
+									"key": "ETag",
+									"value": "",
+									"description": "An identifier for a specific version of a resource, i.e., a version number."
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Invalid X-API-Key",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "(Required) The last auth key token.",
+										"key": "X-Api-Key",
+										"value": "<string>"
+									},
+									{
+										"description": "(Required) The type of encoding used on the data.",
+										"key": "Content-Encoding",
+										"value": "<string>"
+									},
+									{
+										"description": "(Required) The length of the request body in octets (8-bit bytes).",
+										"key": "Content-Length",
+										"value": "<string>"
+									},
+									{
+										"description": "(Required) An alternate location for the data (a new filename if renamed by the client).",
+										"key": "Content-Location",
+										"value": "<string>"
+									},
+									{
+										"description": "(Required) A Base64-encoded binary MD5 sum of the content of the request.",
+										"key": "Content-MD5",
+										"value": "<string>"
+									},
+									{
+										"description": "(Required) The MIME type of this content.",
+										"key": "Content-Type",
+										"value": "<string>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "\"'conent of uploaded file'\""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/file/:file-access-token",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"file",
+										":file-access-token"
+									],
+									"variable": [
+										{
+											"key": "file-access-token"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Date",
+									"value": "",
+									"description": "The date and time at which the message was originated (in \"HTTP-date\" format as defined by RFC 7231 Date/Time Formats)."
+								},
+								{
+									"key": "Expires",
+									"value": "Fri, 7 May 2021 13:12:47 GMT",
+									"description": "Gives the date/time after which the response is considered stale so its new version cannot be posted (in \"HTTP-date\" format as defined by RFC 7231)."
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "The requested resource by the file-access-token could not be found.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "(Required) The last auth key token.",
+										"key": "X-Api-Key",
+										"value": "<string>"
+									},
+									{
+										"description": "(Required) The type of encoding used on the data.",
+										"key": "Content-Encoding",
+										"value": "<string>"
+									},
+									{
+										"description": "(Required) The length of the request body in octets (8-bit bytes).",
+										"key": "Content-Length",
+										"value": "<string>"
+									},
+									{
+										"description": "(Required) An alternate location for the data (a new filename if renamed by the client).",
+										"key": "Content-Location",
+										"value": "<string>"
+									},
+									{
+										"description": "(Required) A Base64-encoded binary MD5 sum of the content of the request.",
+										"key": "Content-MD5",
+										"value": "<string>"
+									},
+									{
+										"description": "(Required) The MIME type of this content.",
+										"key": "Content-Type",
+										"value": "<string>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "\"'conent of uploaded file'\""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/file/:file-access-token",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"file",
+										":file-access-token"
+									],
+									"variable": [
+										{
+											"key": "file-access-token"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Date",
+									"value": "",
+									"description": "The date and time at which the message was originated (in \"HTTP-date\" format as defined by RFC 7231 Date/Time Formats)."
+								},
+								{
+									"key": "Expires",
+									"value": "Fri, 7 May 2021 13:12:47 GMT",
+									"description": "Gives the date/time after which the response is considered stale so its new version cannot be posted (in \"HTTP-date\" format as defined by RFC 7231)."
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "A request method is not supported for the requested resource, i.e., the resource is read-only.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "(Required) The last auth key token.",
+										"key": "X-Api-Key",
+										"value": "<string>"
+									},
+									{
+										"description": "(Required) The type of encoding used on the data.",
+										"key": "Content-Encoding",
+										"value": "<string>"
+									},
+									{
+										"description": "(Required) The length of the request body in octets (8-bit bytes).",
+										"key": "Content-Length",
+										"value": "<string>"
+									},
+									{
+										"description": "(Required) An alternate location for the data (a new filename if renamed by the client).",
+										"key": "Content-Location",
+										"value": "<string>"
+									},
+									{
+										"description": "(Required) A Base64-encoded binary MD5 sum of the content of the request.",
+										"key": "Content-MD5",
+										"value": "<string>"
+									},
+									{
+										"description": "(Required) The MIME type of this content.",
+										"key": "Content-Type",
+										"value": "<string>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "\"'conent of uploaded file'\""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/file/:file-access-token",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"file",
+										":file-access-token"
+									],
+									"variable": [
+										{
+											"key": "file-access-token"
+										}
+									]
+								}
+							},
+							"status": "Method Not Allowed",
+							"code": 405,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Date",
+									"value": "",
+									"description": "The date and time at which the message was originated (in \"HTTP-date\" format as defined by RFC 7231 Date/Time Formats)."
+								},
+								{
+									"key": "Expires",
+									"value": "Fri, 7 May 2021 13:12:47 GMT",
+									"description": "Gives the date/time after which the response is considered stale so its new version cannot be posted (in \"HTTP-date\" format as defined by RFC 7231)."
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "The client did not produce a request within the time that the server was prepared to wait for the upload.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "(Required) The last auth key token.",
+										"key": "X-Api-Key",
+										"value": "<string>"
+									},
+									{
+										"description": "(Required) The type of encoding used on the data.",
+										"key": "Content-Encoding",
+										"value": "<string>"
+									},
+									{
+										"description": "(Required) The length of the request body in octets (8-bit bytes).",
+										"key": "Content-Length",
+										"value": "<string>"
+									},
+									{
+										"description": "(Required) An alternate location for the data (a new filename if renamed by the client).",
+										"key": "Content-Location",
+										"value": "<string>"
+									},
+									{
+										"description": "(Required) A Base64-encoded binary MD5 sum of the content of the request.",
+										"key": "Content-MD5",
+										"value": "<string>"
+									},
+									{
+										"description": "(Required) The MIME type of this content.",
+										"key": "Content-Type",
+										"value": "<string>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "\"'conent of uploaded file'\""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/file/:file-access-token",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"file",
+										":file-access-token"
+									],
+									"variable": [
+										{
+											"key": "file-access-token"
+										}
+									]
+								}
+							},
+							"status": "Request Timeout",
+							"code": 408,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Date",
+									"value": "",
+									"description": "The date and time at which the message was originated (in \"HTTP-date\" format as defined by RFC 7231 Date/Time Formats)."
+								},
+								{
+									"key": "Expires",
+									"value": "Fri, 7 May 2021 13:12:47 GMT",
+									"description": "Gives the date/time after which the response is considered stale so its new version cannot be posted (in \"HTTP-date\" format as defined by RFC 7231)."
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Indicates that the request could not be processed because of conflict in the current state of the resource, such as an edit conflict between multiple simultaneous updates.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "(Required) The last auth key token.",
+										"key": "X-Api-Key",
+										"value": "<string>"
+									},
+									{
+										"description": "(Required) The type of encoding used on the data.",
+										"key": "Content-Encoding",
+										"value": "<string>"
+									},
+									{
+										"description": "(Required) The length of the request body in octets (8-bit bytes).",
+										"key": "Content-Length",
+										"value": "<string>"
+									},
+									{
+										"description": "(Required) An alternate location for the data (a new filename if renamed by the client).",
+										"key": "Content-Location",
+										"value": "<string>"
+									},
+									{
+										"description": "(Required) A Base64-encoded binary MD5 sum of the content of the request.",
+										"key": "Content-MD5",
+										"value": "<string>"
+									},
+									{
+										"description": "(Required) The MIME type of this content.",
+										"key": "Content-Type",
+										"value": "<string>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "\"'conent of uploaded file'\""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/file/:file-access-token",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"file",
+										":file-access-token"
+									],
+									"variable": [
+										{
+											"key": "file-access-token"
+										}
+									]
+								}
+							},
+							"status": "Conflict",
+							"code": 409,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Date",
+									"value": "",
+									"description": "The date and time at which the message was originated (in \"HTTP-date\" format as defined by RFC 7231 Date/Time Formats)."
+								},
+								{
+									"key": "Expires",
+									"value": "Fri, 7 May 2021 13:12:47 GMT",
+									"description": "Gives the date/time after which the response is considered stale so its new version cannot be posted (in \"HTTP-date\" format as defined by RFC 7231)."
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "To invalid the given file access token.",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"description": "(Required) The last auth key token.",
+								"key": "X-Api-Key",
+								"value": "<string>"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/file/:file-access-token",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"file",
+								":file-access-token"
+							],
+							"variable": [
+								{
+									"key": "file-access-token",
+									"value": "<string>",
+									"type": "string",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "The success.",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"description": "(Required) The last auth key token.",
+										"key": "X-Api-Key",
+										"value": "<string>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/file/:file-access-token",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"file",
+										":file-access-token"
+									],
+									"variable": [
+										{
+											"key": "file-access-token"
+										}
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Date",
+									"value": "",
+									"description": "The date and time at which the message was originated (in \"HTTP-date\" format as defined by RFC 7231 Date/Time Formats)."
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Invalid X-API-Key.",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"description": "(Required) The last auth key token.",
+										"key": "X-Api-Key",
+										"value": "<string>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/file/:file-access-token",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"file",
+										":file-access-token"
+									],
+									"variable": [
+										{
+											"key": "file-access-token"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Date",
+									"value": "",
+									"description": "The date and time at which the message was originated (in \"HTTP-date\" format as defined by RFC 7231 Date/Time Formats)."
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "The requested resource by the file-access-token could not be found.",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"description": "(Required) The last auth key token.",
+										"key": "X-Api-Key",
+										"value": "<string>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/file/:file-access-token",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"file",
+										":file-access-token"
+									],
+									"variable": [
+										{
+											"key": "file-access-token"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Date",
+									"value": "",
+									"description": "The date and time at which the message was originated (in \"HTTP-date\" format as defined by RFC 7231 Date/Time Formats)."
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "The client did not produce a request within the time that the server was prepared to wait for the upload.",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"description": "(Required) The last auth key token.",
+										"key": "X-Api-Key",
+										"value": "<string>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/file/:file-access-token",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"file",
+										":file-access-token"
+									],
+									"variable": [
+										{
+											"key": "file-access-token"
+										}
+									]
+								}
+							},
+							"status": "Request Timeout",
+							"code": 408,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Date",
+									"value": "",
+									"description": "The date and time at which the message was originated (in \"HTTP-date\" format as defined by RFC 7231 Date/Time Formats)."
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "To test a connection (to do a ping).",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/ping",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"ping"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "The server successfully processed the request, and is not returning any content.",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/ping",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"ping"
+							]
+						}
+					},
+					"status": "No Content",
+					"code": 204,
+					"_postman_previewlanguage": "text",
+					"header": [
+						{
+							"key": "Date",
+							"value": "",
+							"description": "The date and time at which the message was originated (in \"HTTP-date\" format as defined by RFC 7231 Date/Time Formats)."
+						},
+						{
+							"key": "X-Client-Ip",
+							"value": "",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": ""
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "/",
+			"type": "string"
+		}
+	]
+}

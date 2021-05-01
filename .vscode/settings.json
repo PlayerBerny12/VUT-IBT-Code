@@ -16,6 +16,9 @@
         "xutility": "c",
         "map": "cpp",
         "vector": "cpp",
-        "utility": "cpp"
+        "utility": "cpp",
+        "stdexcept": "cpp",
+        "xmemory": "cpp",
+        "chrono": "cpp"
     }
 }

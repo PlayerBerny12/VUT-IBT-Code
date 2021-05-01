@@ -8,7 +8,7 @@
 
 static void get_full_path(const char *path, char *full_path) {	
 	// Base path on hosts filesystem
-	char base_path[31] = "/home/user/.local/lib/vdu/fuse";
+	char base_path[31] = "/var/lib/vdu/fuse";
 	
 	// Concatenate paths
 	strcpy(full_path, base_path);

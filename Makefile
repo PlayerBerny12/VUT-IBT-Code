@@ -20,7 +20,7 @@ CPPFLAGS =-std=c++17 -Wall -Wextra -pedantic
 OBJDIR = obj
 
 # Source and object files 
-SRCFILES = api.cpp config.cpp database.cpp file.cpp notification.cpp
+SRCFILES = api.cpp database.cpp file.cpp notification.cpp utils.cpp
 OBJFILES = $(patsubst %.cpp,$(OBJDIR)/%.o,$(SRCFILES))
 
 # Source and object files for tests
@@ -44,10 +44,14 @@ run_tests: build_tests
 	./$(TARGETTESTS)
 
 build: $(OBJFILES)
-	$(CPP) $(CPPFLAGS) -o $(TARGET) $^ src/string.h src/main.cpp -lcurl -lsqlite3 `pkg-config --libs --cflags libnotify`
+	$(CPP) $(CPPFLAGS) -o $(TARGET) $^ src/string.h src/main.cpp -lcurl -lsqlite3 -lcrypto \
+	`pkg-config --libs --cflags libnotify` \
+	`pkg-config --libs --cflags libsecret-1`
 
 $(OBJDIR)/%.o: src/%.cpp
-	$(CPP) $(CPPFLAGS) -c -o $@ $< `pkg-config --libs --cflags libnotify`
+	$(CPP) $(CPPFLAGS) -c -o $@ $< \
+	`pkg-config --libs --cflags libnotify` \
+	`pkg-config --libs --cflags libsecret-1`
 
 build_fuse:
 	$(C) $(CFLAGS) -o $(TARGETFUSE) src/fuse/main.c `pkg-config --cflags --libs fuse3`

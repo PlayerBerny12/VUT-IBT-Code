@@ -10,7 +10,7 @@ Notification::~Notification()
     notify_notification_close(this->notification, 0);
 }
 
-void Notification::notify(int message_code, bool error, bool sleep)
+void Notification::notify(int message_code, bool error)
 {
     try
     {
@@ -40,7 +40,7 @@ void Notification::notify(int message_code, bool error, bool sleep)
             throw runtime_error("Showing notification failed.");
         }
 
-        if(sleep) 
+        if(error) 
         {
             usleep(5000000);
         }

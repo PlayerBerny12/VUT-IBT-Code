@@ -16,6 +16,11 @@
 
 using namespace std;
 
+typedef struct token_info {
+    string expires;
+    int usage;
+} token_info_t;
+
 class File;
 
 class Database
@@ -28,6 +33,10 @@ public:
     ~Database();
     int save_file_info(File& file);
     int load_file_info(File& file);
+    int remove_file_info(File& file);
+    int save_token_info(token_info& token_info);
+    int load_token_info(token_info& token_info);
+    int remove_token_info();
 };
 
 #endif

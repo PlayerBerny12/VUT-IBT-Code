@@ -22,16 +22,23 @@ class Notification
 private:
     NotifyNotification *notification;
     vector<pair<string, string>> messages{{"Opening file...", "dialog-information"},
+                                          {"Error: VDU server not responding.", "dialog-error"},
+                                          {"Error: Authentication failed.", "dialog-error"},
                                           {"Error: Invalid number of arguments.", "dialog-error"},
                                           {"Error: Invalid argument identifying process type.", "dialog-error"},
                                           {"Error: Selected file is not in the correct format or is corrupt.", "dialog-error"},
                                           {"Error: Cannot save metadata of file to database.", "dialog-error"},
-                                          {"Error: Cannot retrieve metadata of file from database.", "dialog-error"}};
+                                          {"Error: Cannot retrieve metadata of file from database.", "dialog-error"},
+                                          {"Error: Cannot remove metadata of file from database.", "dialog-error"},
+                                          {"Error: Cannot save metadata to database.", "dialog-error"},
+                                          {"Error: Cannot retrieve metadata from database.", "dialog-error"},
+                                          {"Error: Cannot remove metadata from database.", "dialog-error"},
+                                          {"Error: Received file is corrupted.", "dialog-error"}};
 
 public:
     Notification();
     ~Notification();
-    void notify(int message_code, bool error, bool sleep);
+    void notify(int message_code, bool error);
 };
 
 #endif
