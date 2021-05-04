@@ -5,7 +5,13 @@ Notification::Notification()
 {        
 }
 
-Notification::~Notification()
+Notification& Notification::getInstance()
+{
+    static Notification instance;
+    return instance;
+}
+
+void Notification::cleanup()
 {
     notify_notification_close(this->notification, 0);
 }

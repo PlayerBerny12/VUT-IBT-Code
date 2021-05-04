@@ -4,7 +4,7 @@ Description=VDU App Fuse Service
 [Service]
 User=root
 Type=forking
-ExecStart=/mnt/code/vdu-app-fuse /mnt/fuse
+ExecStart=/mnt/code/vdu-app-fuse -o allow_other /mnt/fuse
 Restart=on-failure
 
 [Install]

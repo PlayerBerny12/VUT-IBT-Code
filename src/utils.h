@@ -40,13 +40,14 @@ public:
     inline static const string db_path = app_path + "vdu.db";
     inline static const string default_config_path = configs_path + "vdu.conf";
 
+    inline static string username;
     inline static string cert_file;
     inline static string ca_cert_file;
     inline static string key_name;
     inline static string pass_phrase;
 
     static void run_xdg_open(string &filename);
-    static void run_zenity_password(string &password);
+    static void run_zenity_password(string &password);    
     static void load_config();
     static int save_secret(string& secret, const char *name);
     static int load_secret(string& secret, const char *name);

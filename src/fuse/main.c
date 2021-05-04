@@ -1,10 +1,11 @@
 #define FUSE_USE_VERSION 31
 
-#include <fuse.h>
-#include <string.h>
-#include <unistd.h>
 #include <dirent.h>
 #include <errno.h>
+#include <fuse.h>
+#include <stdio.h>
+#include <string.h>
+#include <unistd.h>
 
 static void get_full_path(const char *path, char *full_path) {	
 	// Base path on hosts filesystem
@@ -213,7 +214,7 @@ static int fuse_write(const char *path, const char *buf, size_t size, off_t offs
 					  struct fuse_file_info *fi)
 {
 	(void)fi;	
-
+	printf("%s", "write");
 	// Full path
 	char full_path[255+13+1];
 	get_full_path(path, full_path);
@@ -247,6 +248,24 @@ static int fuse_write(const char *path, const char *buf, size_t size, off_t offs
 		close(fd);
 	}
 
+	// // Upload new version to VDU	
+	// char command_vdu[512] = "/mnt/code/vdu-app --real-file save '";
+	// strcat(command_vdu, path);
+	// strcat(command_vdu, "'");
+
+	// if(fork() == 0) {
+	// 	FILE *f = popen(command_vdu, "r");
+
+	// 	char buffer[2048];
+		
+	// 	while (fgets(buffer, 2048, f) != NULL)
+	// 	{
+	// 		printf("%s\n", buffer);
+	// 	}		
+
+	// 	pclose(f);
+	// }
+	
 	return res;
 }
 
@@ -273,7 +292,7 @@ static const struct fuse_operations fuse_opers = {
 	.release = fuse_release};
 
 int main(int argc, char *argv[])
-{
+{	
 	// Set default permission of files on hosts filesystem
 	umask(0007);
 

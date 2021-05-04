@@ -19,6 +19,8 @@
         "utility": "cpp",
         "stdexcept": "cpp",
         "xmemory": "cpp",
-        "chrono": "cpp"
+        "chrono": "cpp",
+        "iosfwd": "cpp",
+        "iterator": "cpp"
     }
 }

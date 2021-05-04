@@ -56,7 +56,7 @@ public:
     ~API();
     int ping();
     int file_get(string access_token, map<string, string> *header_values, size_t *size, char **content);
-    int file_post(map<string, string> *header_values, char *content);
+    int file_post(map<string, string> *header_values, const char *content, string access_token);
     int file_delete(map<string, string> *header_values);
     int authenticate();
     int save_token_info();

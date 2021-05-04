@@ -19,6 +19,9 @@ using namespace std;
 
 class Notification
 {
+public:
+    static Notification& getInstance();
+
 private:
     NotifyNotification *notification;
     vector<pair<string, string>> messages{{"Opening file...", "dialog-information"},
@@ -35,10 +38,12 @@ private:
                                           {"Error: Cannot remove metadata from database.", "dialog-error"},
                                           {"Error: Received file is corrupted.", "dialog-error"}};
 
-public:
     Notification();
-    ~Notification();
+public:
+    Notification(Notification const &) = delete;
+    void operator=(Notification const &) = delete;
+    
+    void cleanup();
     void notify(int message_code, bool error);
 };
-
 #endif

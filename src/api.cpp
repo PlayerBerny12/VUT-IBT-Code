@@ -76,6 +76,11 @@ int API::ping()
     // set request parameters
     curl_easy_setopt(this->curl, CURLOPT_URL, (this->base_url + "ping").c_str());
 
+#ifdef VDU_HTTP_3
+    // Enabling HTTP 3 
+    curl_easy_setopt(curl, CURLOPT_HTTP_VERSION, (long)CURL_HTTP_VERSION_3);
+#endif
+
     // perform request
     CURLcode res = curl_easy_perform(this->curl);
 
@@ -102,12 +107,19 @@ int API::ping()
  */
 int API::auth_key_get(map<string, string> *header_values)
 {
-    // set http request header values
-    cout << ("x-api-key-test: " + this->x_api_key).c_str() << endl;
+    // set http request header values    
     this->request_header = curl_slist_append(this->request_header, ("x-api-key-test: " + this->x_api_key).c_str());
 
+#ifdef VDU_DEV
     // !!! x-mock-response-code is set for development purposes !!! -> should be deleted in PROD
     this->request_header = curl_slist_append(this->request_header, "x-mock-response-code: 200");
+
+    // set x-api-key http request header value (postman using x-api-key for auth -> placeholder)
+    this->request_header = curl_slist_append(this->request_header, ("x-api-key-test: " + this->x_api_key).c_str());
+#else
+    // set x-api-key http request header value
+    this->request_header = curl_slist_append(this->request_header, ("x-api-key: " + this->x_api_key).c_str());
+#endif
 
     // set request parameters
     curl_easy_setopt(this->curl, CURLOPT_URL, (this->base_url + "auth/key").c_str());
@@ -117,9 +129,13 @@ int API::auth_key_get(map<string, string> *header_values)
     curl_easy_setopt(this->curl, CURLOPT_HEADERFUNCTION, header_parse);
     curl_easy_setopt(this->curl, CURLOPT_HEADERDATA, header_values);
 
+#ifdef VDU_HTTP_3
+    // Enabling HTTP 3 
+    curl_easy_setopt(curl, CURLOPT_HTTP_VERSION, (long)CURL_HTTP_VERSION_3);
+#endif
+
     // perform request
     CURLcode res = curl_easy_perform(this->curl);
-
     // get response status code
     long res_code = 0;
     curl_easy_getinfo(this->curl, CURLINFO_RESPONSE_CODE, &res_code);
@@ -149,13 +165,20 @@ int API::auth_key_post(string &from, string &password, map<string, string> *head
     this->request_header = curl_slist_append(this->request_header, ("from: " + from).c_str());
     this->request_header = curl_slist_append(this->request_header, "content-type: text/plain");
 
+#ifdef VDU_DEV
     // !!! x-mock-response-code is set for development purposes !!! -> should be deleted in PROD
     this->request_header = curl_slist_append(this->request_header, "x-mock-response-code: 201");
-
+#endif
+    
     // set request parameters
     curl_easy_setopt(this->curl, CURLOPT_CUSTOMREQUEST, "POST");
     curl_easy_setopt(this->curl, CURLOPT_URL, (this->base_url + "auth/key").c_str());
     curl_easy_setopt(this->curl, CURLOPT_HTTPHEADER, this->request_header);
+
+#ifdef VDU_HTTP_3
+    // Enabling HTTP 3 
+    curl_easy_setopt(curl, CURLOPT_HTTP_VERSION, (long)CURL_HTTP_VERSION_3);
+#endif
 
     // Use password
     if (password.length() > 0)
@@ -215,6 +238,11 @@ int API::auth_key_delete(map<string, string> *header_values)
     curl_easy_setopt(this->curl, CURLOPT_HEADERFUNCTION, header_parse);
     curl_easy_setopt(this->curl, CURLOPT_HEADERDATA, header_values);
 
+#ifdef VDU_HTTP_3
+    // Enabling HTTP 3 
+    curl_easy_setopt(curl, CURLOPT_HTTP_VERSION, (long)CURL_HTTP_VERSION_3);
+#endif
+
     // perform request
     CURLcode res = curl_easy_perform(this->curl);
 
@@ -245,11 +273,16 @@ int API::file_get(string access_token, map<string, string> *header_values, size_
 {
     response_content_t response_content = {nullptr, 0};
 
-    // set http request header values
-    this->request_header = curl_slist_append(this->request_header, ("x-api-key-test: " + this->x_api_key).c_str());
-
+#ifdef VDU_DEV
     // !!! x-mock-response-code is set for development purposes !!! -> should be deleted in PROD
     this->request_header = curl_slist_append(this->request_header, "x-mock-response-code: 200");
+
+    // set x-api-key http request header value (postman using x-api-key for auth -> placeholder)
+    this->request_header = curl_slist_append(this->request_header, ("x-api-key-test: " + this->x_api_key).c_str());
+#else
+    // set x-api-key http request header value
+    this->request_header = curl_slist_append(this->request_header, ("x-api-key: " + this->x_api_key).c_str());
+#endif
 
     // set request parameters
     curl_easy_setopt(this->curl, CURLOPT_URL, (this->base_url + "file/" + access_token).c_str());
@@ -263,6 +296,11 @@ int API::file_get(string access_token, map<string, string> *header_values, size_
     curl_easy_setopt(this->curl, CURLOPT_HEADERFUNCTION, header_parse);
     curl_easy_setopt(this->curl, CURLOPT_WRITEDATA, &response_content);
     curl_easy_setopt(this->curl, CURLOPT_WRITEFUNCTION, read_callback);
+
+#ifdef VDU_HTTP_3
+    // Enabling HTTP 3 
+    curl_easy_setopt(curl, CURLOPT_HTTP_VERSION, (long)CURL_HTTP_VERSION_3);
+#endif
 
     // perform request
     CURLcode res = curl_easy_perform(this->curl);
@@ -295,24 +333,41 @@ int API::file_get(string access_token, map<string, string> *header_values, size_
 /**
  * Post/upload the content of a file available by the given access token.
  */
-int API::file_post(map<string, string> *header_values, char *content)
+int API::file_post(map<string, string> *header_values, const char *content, string access_token)
 {
-    // set http request header values
-    this->request_header = curl_slist_append(this->request_header, ("x-api-key-test: " + this->x_api_key).c_str());
+    // set http request header values    
     this->request_header = curl_slist_append(this->request_header, "content-encoding: identity");
     this->request_header = curl_slist_append(this->request_header, "content-length: ");
     this->request_header = curl_slist_append(this->request_header, "content-location: ");
     this->request_header = curl_slist_append(this->request_header, "content-md5: ");
-    this->request_header = curl_slist_append(this->request_header, "content-type: ");
+    this->request_header = curl_slist_append(this->request_header, "content-type: text/plain");
+    
+#ifdef VDU_DEV
+    // !!! x-mock-response-code is set for development purposes !!! -> should be deleted in PROD
+    this->request_header = curl_slist_append(this->request_header, "x-mock-response-code: 201");
+
+    // set x-api-key http request header value (postman using x-api-key for auth -> placeholder)
+    this->request_header = curl_slist_append(this->request_header, ("x-api-key-test: " + this->x_api_key).c_str());
+#else
+    // set x-api-key http request header value
+    this->request_header = curl_slist_append(this->request_header, ("x-api-key: " + this->x_api_key).c_str());
+#endif    
 
     // set request parameters
     curl_easy_setopt(this->curl, CURLOPT_CUSTOMREQUEST, "POST");
-    curl_easy_setopt(this->curl, CURLOPT_URL, (this->base_url + "file/" + this->x_api_key).c_str());
+    curl_easy_setopt(this->curl, CURLOPT_URL, (this->base_url + "file/" + access_token).c_str());
     curl_easy_setopt(this->curl, CURLOPT_HTTPHEADER, this->request_header);
 
     // set callbacks with arguments
     curl_easy_setopt(this->curl, CURLOPT_HEADERFUNCTION, header_parse);
     curl_easy_setopt(this->curl, CURLOPT_HEADERDATA, header_values);
+
+#ifdef VDU_HTTP_3
+    // Enabling HTTP 3 
+    curl_easy_setopt(curl, CURLOPT_HTTP_VERSION, (long)CURL_HTTP_VERSION_3);
+#endif
+
+    curl_easy_setopt(this->curl, CURLOPT_POSTFIELDS, content);
 
     // perform request
     CURLcode res = curl_easy_perform(this->curl);
@@ -343,8 +398,16 @@ int API::file_post(map<string, string> *header_values, char *content)
  */
 int API::file_delete(map<string, string> *header_values)
 {
-    // set http request header values
+#ifdef VDU_DEV
+    // !!! x-mock-response-code is set for development purposes !!! -> should be deleted in PROD
+    this->request_header = curl_slist_append(this->request_header, "x-mock-response-code: 204");
+
+    // set x-api-key http request header value (postman using x-api-key for auth -> placeholder)
     this->request_header = curl_slist_append(this->request_header, ("x-api-key-test: " + this->x_api_key).c_str());
+#else
+    // set x-api-key http request header value
+    this->request_header = curl_slist_append(this->request_header, ("x-api-key: " + this->x_api_key).c_str());
+#endif
 
     // set request parameters
     curl_easy_setopt(this->curl, CURLOPT_CUSTOMREQUEST, "DELETE");
@@ -354,6 +417,11 @@ int API::file_delete(map<string, string> *header_values)
     // set callbacks with arguments
     curl_easy_setopt(this->curl, CURLOPT_HEADERDATA, header_values);
     curl_easy_setopt(this->curl, CURLOPT_HEADERFUNCTION, header_parse);
+
+#ifdef VDU_HTTP_3
+    // Enabling HTTP 3 
+    curl_easy_setopt(curl, CURLOPT_HTTP_VERSION, (long)CURL_HTTP_VERSION_3);
+#endif
 
     // perform request
     CURLcode res = curl_easy_perform(this->curl);
@@ -428,9 +496,15 @@ int API::authenticate()
     // Remote authentification needed
     if (authentificateType == 1)
     {
-        string username;
+        string username = Utils::username;
         string password;
-        
+
+        if(Utils::username.length() == 0) 
+        {
+            // Get system username        
+            username = getlogin();    
+        }
+
         if (Utils::cert_file.length() == 0 && Utils::ca_cert_file.length() == 0 && Utils::key_name.length() == 0)
         {
             // Get password
@@ -442,24 +516,22 @@ int API::authenticate()
             }
         }
 
-        // Get username
-        username = string(getenv("USERNAME"));
-
         // Authenticate
-        map<string, string> header_values;
+        map<string, string> header_values;        
         if (this->auth_key_post(username, password, &header_values) != 201)
         {
             return 1;
         }
 
+        
         this->expires = header_values["expires"];
         this->x_api_key = header_values["x-api-key"];
         this->usage = 5;
-
+        
         // Save password and token to keyring
         if (password.length() > 0)
-        {
-            Utils::save_secret(password, "password");
+        {            
+            Utils::save_secret(password, "password");            
         }
 
         return this->save_token_info();
@@ -495,9 +567,9 @@ int API::renew_token()
  * Save token to keyring and also metadata to database.
  */
 int API::save_token_info()
-{
+{    
     if (Utils::save_secret(this->x_api_key, "token"))
-    {
+    {        
         return 1;
     }
 

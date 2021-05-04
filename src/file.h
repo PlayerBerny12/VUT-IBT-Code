@@ -19,7 +19,11 @@
 #include "notification.h"
 #include <openssl/md5.h>
 #include "string.h"
+#include <unistd.h>
 #include "utils.h"
+#include <vector>
+#include <iterator>
+
 
 using namespace std;
 
@@ -37,8 +41,7 @@ private:
     int validate_file(unsigned char *content, size_t size);
     void map_header_vales(map<string, string> header_values);
     int save_file(char *content);
-    void open_file();
-    int download();
+    void open_file();    
 
 public:
     string allow;
@@ -52,7 +55,8 @@ public:
 
     File(API &api, Database &database, Notification &notification);
     ~File();
-    int process_fake_file(const string path);
+    int download(const string &url);
+    int upload(string path);
 };
 
 #endif

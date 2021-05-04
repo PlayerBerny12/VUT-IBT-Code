@@ -55,7 +55,7 @@ void File::map_header_vales(map<string, string> header_values)
     this->content_checksum = header_values["content-md5"];
     this->content_type = header_values["content-type"];
     this->expires = header_values["expires"];
-    this->etag = header_values["etag"];    
+    this->etag = header_values["etag"];
 }
 
 int File::save_file(char *content)
@@ -79,36 +79,15 @@ void File::open_file()
     Utils::run_xdg_open(path);
 }
 
-int File::process_fake_file(const string path)
-{
-    // Prepare stream and variables
-    string header, access_token;
-    ifstream fake_file(path);
-
-    // Read
-    getline(fake_file, header);
-    getline(fake_file, access_token);
-
-    // Close stream
-    fake_file.close();
-
-    // Fake file validation
-    if (header != "#VUD-App access token#" || !fake_file.eof())
-    {
-        this->notification.notify(5, true);
-        return 1;
-    }
-
-    this->access_token = access_token;
-    return this->download();
-}
-
-int File::download()
+int File::download(const string &url)
 {
     map<string, string> header_values;
     char *content = nullptr;
     size_t size = 0;
     
+    // Retrieve access token from url
+    this->access_token = url.substr(6);
+
     // Get data form server
     if (this->api.file_get(this->access_token, &header_values, &size, &content) != 200)
     {
@@ -132,4 +111,29 @@ int File::download()
 
     this->open_file();
     return 0;
+}
+
+int File::upload(string path)
+{
+    map<string, string> header_values;    
+
+    // Remove first /
+    this->content_location = path.substr(1);
+
+    this->database.load_file_info(*this);
+
+    cout << this->access_token << endl;
+    if (this->allow == "GET")
+    {
+        return 1;
+    }
+
+    // read file    
+    ifstream infile(get_full_path());
+    std::ostringstream ss;
+
+    ss << infile.rdbuf();    
+    const std::string &s = ss.str();
+    cout << s.c_str() << endl;        
+    return this->api.file_post(&header_values, s.c_str(), this->access_token);
 }

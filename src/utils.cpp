@@ -12,6 +12,11 @@
 void Utils::run_xdg_open(string &filename)
 {
     auto f = popen(("xdg-open '" + filename + "'").c_str(), "r");
+    if (f == nullptr)
+    {
+        return;
+    }
+
     pclose(f);
 }
 
@@ -31,7 +36,8 @@ void Utils::run_zenity_password(string &password)
         return;
     }
 
-    password = string(input_raw);    
+    password = string(input_raw);
+    trim(password);
 }
 
 void Utils::load_config()
@@ -81,6 +87,10 @@ void Utils::load_config()
                 {
                     pass_phrase = value;
                 }
+                else if (key == "Username")
+                {
+                    username = value;
+                }
             }
         }
     }
@@ -93,9 +103,7 @@ int Utils::save_secret(string &secret, const char *name)
 {
     GError *error = nullptr;
 
-    if(clear_secret(name)) {
-        return 1;
-    }
+    clear_secret(name);
 
     secret_password_store_sync(&secret_schema, SECRET_COLLECTION_DEFAULT,
                                name, secret.c_str(), nullptr, &error,
@@ -160,4 +168,3 @@ int Utils::clear_secret(const char *name)
 
     return 0;
 }
-

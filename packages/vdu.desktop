@@ -3,4 +3,5 @@ Type=Application
 Version=1.0
 Name=VDU App
 Comment=Application for handling remote VDU files at desktop
-Exec=/mnt/code/vdu-app --fake-file %f
+Exec=/mnt/code/vdu-app --url-handler %u
+MimeType=x-scheme-handler/vdu;

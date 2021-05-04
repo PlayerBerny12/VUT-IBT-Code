@@ -48,8 +48,11 @@ build: $(OBJFILES)
 	`pkg-config --libs --cflags libnotify` \
 	`pkg-config --libs --cflags libsecret-1`
 
+# arguments for different setup
+#	-DVDU_DEV		= setup for dev enviroment (using placeholders for specific http header values etc)
+#	-DVDU_HTTP_3	= setup cURL to use HTTP 3 
 $(OBJDIR)/%.o: src/%.cpp
-	$(CPP) $(CPPFLAGS) -c -o $@ $< \
+	$(CPP) $(CPPFLAGS) -DVDU_DEV -c -o $@ $< \
 	`pkg-config --libs --cflags libnotify` \
 	`pkg-config --libs --cflags libsecret-1`
 

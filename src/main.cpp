@@ -23,16 +23,54 @@ void cleanup()
     curl_global_cleanup();
 }
 
+int process_arguments(int argc, char *argv[], API &api, Database &database)
+{
+    auto &notification = Notification::getInstance();
+    auto file = File(api, database, notification);
+
+    if (argc == 3)
+    {
+        // Process fake file
+        if (string(argv[1]) == "--url-handler")
+        {
+            notification.notify(0, false);            
+            return file.download(argv[2]);
+            return 0;
+        }
+        else
+        {
+            notification.notify(4, true);
+            return 1;
+        }
+    }
+    else if (argc == 4)
+    {
+        // Process real file
+        if (string(argv[1]) == "--real-file")
+        {
+            return file.upload(argv[3]);
+        }
+        else
+        {
+            notification.notify(4, true);
+            return 1;
+        }
+    }
+    else
+    {
+        notification.notify(3, true);
+        return 1;
+    }
+}
+
 int main(int argc, char *argv[])
 {
     int err_code = 0;
-    auto notification = Notification();
+    auto &notification = Notification::getInstance();   
     auto database = Database(notification);
     auto api = API("https://e526bc93-da2e-4001-94a3-d9fa02033458.mock.pstmn.io/", database);
-    auto file = File(api, database, notification);
 
     init();
-    notification.notify(0, false);
 
     if (api.ping() != 204)
     {
@@ -48,34 +86,12 @@ int main(int argc, char *argv[])
         }
         else
         {
-            if (argc == 3)
-            {
-                // Process fake file
-                if (string(argv[1]) == "--fake-file")
-                {
-                    err_code = file.process_fake_file(argv[2]);
-                }
-                // Process real file
-                else if (string(argv[1]) == "--real-file")
-                {
-                    // TODO: fuse real-file processing
-                }
-                else
-                {
-                    err_code = 1;
-                    notification.notify(4, true);
-                }
-            }
-            else
-            {
-                err_code = 1;
-                notification.notify(3, true);
-            }
+            err_code = process_arguments(argc, argv, api, database);
+            
+            // Save API state
+            api.save_token_info();
         }
     }
-
-    // Save API state
-    api.save_token_info();
 
     // Cleanup and exit
     cleanup();
