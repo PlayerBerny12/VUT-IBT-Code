@@ -19,9 +19,6 @@ using namespace std;
 
 class Notification
 {
-public:
-    static Notification& getInstance();
-
 private:
     NotifyNotification *notification;
     vector<pair<string, string>> messages{{"Opening file...", "dialog-information"},
@@ -36,10 +33,13 @@ private:
                                           {"Error: Cannot save metadata to database.", "dialog-error"},
                                           {"Error: Cannot retrieve metadata from database.", "dialog-error"},
                                           {"Error: Cannot remove metadata from database.", "dialog-error"},
-                                          {"Error: Received file is corrupted.", "dialog-error"}};
+                                          {"Error: Received file is corrupted.", "dialog-error"},
+                                          {"Error: Working with keyring failed.", "dialog-error"}};
 
     Notification();
 public:
+    static Notification& get_instance();
+    
     Notification(Notification const &) = delete;
     void operator=(Notification const &) = delete;
     

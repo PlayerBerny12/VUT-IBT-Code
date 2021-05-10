@@ -7,22 +7,32 @@
 // **   Module: Config - header                                          ** //
 // ************************************************************************ //
 
+#ifndef VDU_UTILS_H
+#define VDU_UTILS_H
+
+#include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <libsecret/secret.h>
+#include "notification.h"
+#include <pwd.h>
 #include "string.h"
 #include <sstream>
+#include <sys/stat.h>
+#include <sys/types.h>
 #include <unistd.h>
 
 using namespace std;
 
+/**
+ * Class containing support functions and atributes load from configuration
+ */
 class Utils
 {
-private:
-    inline static const string app_path = "/var/lib/vdu/";
-    inline static const string configs_path = "/etc/vdu/";
+private: 
+    Notification &notification;
 
-    inline static const SecretSchema secret_schema = {
+    const SecretSchema secret_schema = {
 		"org.freedesktop.secret", SECRET_SCHEMA_NONE,
 		{
 			{"name", SECRET_SCHEMA_ATTRIBUTE_STRING},
@@ -34,22 +44,31 @@ private:
         0, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr           
 	};
 
+    Utils();
+    void creat_config_if_not_exists();
+    void load_config();
 public:
-    inline static const string files_path = "/mnt/vdu/";
+    static Utils& get_instance();
+    
+    Utils(Utils const &) = delete;
+    void operator=(Utils const &) = delete;
 
-    inline static const string db_path = app_path + "vdu.db";
-    inline static const string default_config_path = configs_path + "vdu.conf";
+    string files_path = "/mnt/vdu/";
 
-    inline static string username;
-    inline static string cert_file;
-    inline static string ca_cert_file;
-    inline static string key_name;
-    inline static string pass_phrase;
+    string db_path;
+    string default_config_path;
 
-    static void run_xdg_open(string &filename);
-    static void run_zenity_password(string &password);    
-    static void load_config();
-    static int save_secret(string& secret, const char *name);
-    static int load_secret(string& secret, const char *name);
-    static int clear_secret(const char *name);
+    string username;
+    string cert_file;
+    string ca_cert_file;
+    string key_file;
+    string pass_phrase;
+
+    void run_xdg_open(string &filename);
+    void run_zenity_password(string &password);    
+    int save_secret(string& secret, const char *name);
+    int load_secret(string& secret, const char *name);
+    int clear_secret(const char *name);
 };
+
+#endif

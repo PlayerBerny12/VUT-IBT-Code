@@ -5,7 +5,7 @@ Notification::Notification()
 {        
 }
 
-Notification& Notification::getInstance()
+Notification& Notification::get_instance()
 {
     static Notification instance;
     return instance;

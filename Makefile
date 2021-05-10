@@ -60,13 +60,17 @@ build_fuse:
 	$(C) $(CFLAGS) -o $(TARGETFUSE) src/fuse/main.c `pkg-config --cflags --libs fuse3`
 
 build_tests: $(OBJTESTFILES) $(OBJFILES)
-	$(CPP) $(CPPFLAGS) -pthread -o $(TARGETTESTS) $? tests/tests.cpp -lgtest -lpthread -lcurl
+	$(CPP) $(CPPFLAGS) -pthread -o $(TARGETTESTS) $^ src/string.h tests/tests.cpp -lgtest -lpthread -lcurl -lsqlite3 -lcrypto \
+	`pkg-config --libs --cflags libnotify` \
+	`pkg-config --libs --cflags libsecret-1`
 
 $(OBJDIR)/%.o: tests/%.cpp
-	$(CPP) $(CPPFLAGS) -c -o $@ $< 
+	$(CPP) $(CPPFLAGS) -c -o $@ $< \
+	`pkg-config --libs --cflags libnotify` \
+	`pkg-config --libs --cflags libsecret-1`
 
 doxygen:
-	doxygen docs/Doxyfile
+	doxygen Doxyfile
 
 clean:
 	rm -f $(TARGET) $(TARGETFUSE) $(TARGETTESTS)

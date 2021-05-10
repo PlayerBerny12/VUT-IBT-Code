@@ -57,6 +57,8 @@ public:
     ~File();
     int download(const string &url);
     int upload(string path);
+    int check(string path);
+    int rename(string path);
 };
 
 #endif

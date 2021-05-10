@@ -20,7 +20,8 @@ File::~File()
 
 string File::get_full_path()
 {
-    return Utils::files_path + this->content_location;
+    Utils& utils = Utils::get_instance();
+    return utils.files_path + this->content_location;
 }
 
 int File::validate_file(unsigned char *content, size_t size)
@@ -75,8 +76,9 @@ int File::save_file(char *content)
 
 void File::open_file()
 {
+    Utils& utils = Utils::get_instance();
     auto path = get_full_path();
-    Utils::run_xdg_open(path);
+    utils.run_xdg_open(path);
 }
 
 int File::download(const string &url)
@@ -109,31 +111,35 @@ int File::download(const string &url)
         return 1;
     }
 
+    // Cleanup
+    free(content);
+
     this->open_file();
     return 0;
 }
 
 int File::upload(string path)
 {
+    cout << "upload" << endl;
     map<string, string> header_values;    
 
     // Remove first /
-    this->content_location = path.substr(1);
+    this->content_location = path.substr(1);    
 
+    // Load data from db to this object
     this->database.load_file_info(*this);
 
-    cout << this->access_token << endl;
-    if (this->allow == "GET")
-    {
-        return 1;
-    }
+    cout << this->allow << endl;
+    // if (this->allow == "GET")
+    // {
+    //     return 1;
+    // }
 
-    // read file    
+    // Read file    
     ifstream infile(get_full_path());
-    std::ostringstream ss;
-
+    ostringstream ss;
     ss << infile.rdbuf();    
-    const std::string &s = ss.str();
-    cout << s.c_str() << endl;        
-    return this->api.file_post(&header_values, s.c_str(), this->access_token);
+    const string &s = ss.str();
+
+    return this->api.file_post(this->access_token, &header_values, s.c_str());
 }

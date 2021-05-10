@@ -13,23 +13,29 @@
 #include "file.h"
 #include "notification.h"
 #include <sqlite3.h>
+#include "utils.h"
 
 using namespace std;
 
-typedef struct token_info {
-    string expires;
-    int usage;
-} token_info_t;
-
 class File;
 
+/**
+ * Class for working with database.
+ */
 class Database
 {
 private:
     Notification& notification;
+    Utils &utils;
+    sqlite3 *database;
 
 public:    
-    Database(Notification& notification);
+    typedef struct token_info {
+        string expires;
+        int usage;
+    } token_info_t;
+
+    Database();
     ~Database();
     int save_file_info(File& file);
     int load_file_info(File& file);

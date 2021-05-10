@@ -9,31 +9,54 @@
 
 #include "database.h"
 
-Database::Database(Notification &notification)
-    : notification(notification)
+/**
+ * Constructor for Database
+ */
+Database::Database()
+    : notification(Notification::get_instance()), utils(Utils::get_instance())
 {
+    // Open databse
+    if (sqlite3_open(utils.db_path.c_str(), &(this->database)) != SQLITE_OK)
+    {
+        throw runtime_error(nullptr);
+    }
+
+    // Create tables if not exists
+    string sql = " \
+        CREATE TABLE IF NOT EXISTS Files ( \
+            Location STRING NOT NULL PRIMARY KEY, Allow STRING NOT NULL, Type STRING NOT NULL, Expires STRING NOT NULL, \
+            ETag STRING NOT NULL, AccessToken STRING NOT NULL, Usage INTEGER NOT NULL\
+        ); \
+        CREATE TABLE IF NOT EXISTS Metadata ( \
+            'Key' STRING PRIMARY KEY NOT NULL, Value STRING NOT NULL \
+        ); \
+    ";
+
+    if(sqlite3_exec(this->database, sql.c_str(), nullptr, nullptr, nullptr) != SQLITE_OK) {
+        throw runtime_error(nullptr);
+    }    
 }
 
+/**
+ * Destructor for Database
+ */
 Database::~Database()
 {
+    sqlite3_close(this->database);
 }
 
+/**
+ * Insert data to Files table.
+ */
 int Database::save_file_info(File &file)
 {
-    sqlite3 *database;
     sqlite3_stmt *statement = nullptr;
     string sql = "INSERT OR REPLACE INTO Files (Location, Allow, Type, Expires, ETag, AccessToken, Usage) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
     try
     {
-        // Open databse
-        if (sqlite3_open(Utils::db_path.c_str(), &database) != SQLITE_OK)
-        {
-            throw runtime_error(nullptr);
-        }
-
         // Prepare statement
-        if (sqlite3_prepare_v2(database, sql.c_str(), -1, &statement, 0) == SQLITE_OK)
+        if (sqlite3_prepare_v2(this->database, sql.c_str(), -1, &statement, 0) == SQLITE_OK)
         {
             // Bind parameters
             sqlite3_bind_text(statement, 1, file.content_location.c_str(), file.content_location.length(), nullptr);
@@ -57,7 +80,7 @@ int Database::save_file_info(File &file)
 
         // Cleanup
         sqlite3_finalize(statement);
-        sqlite3_close(database);
+        
         return 0;
     }
     catch (const exception &e)
@@ -67,7 +90,6 @@ int Database::save_file_info(File &file)
         {
             sqlite3_finalize(statement);
         }
-        sqlite3_close(database);
 
         // Show notification
         this->notification.notify(6, true);
@@ -76,22 +98,18 @@ int Database::save_file_info(File &file)
     }
 }
 
+/**
+ * Select data from Files table.
+ */
 int Database::load_file_info(File &file)
 {
-    sqlite3 *database;
     sqlite3_stmt *statement = nullptr;
     string sql = "SELECT Location, Allow, Type, Expires, ETag, AccessToken, Usage FROM Files WHERE Location = ?";
 
     try
     {
-        // Open databse
-        if (sqlite3_open(Utils::db_path.c_str(), &database) != SQLITE_OK)
-        {
-            throw runtime_error(nullptr);
-        }
-
         // Prepare statement
-        if (sqlite3_prepare_v2(database, sql.c_str(), -1, &statement, 0) == SQLITE_OK)
+        if (sqlite3_prepare_v2(this->database, sql.c_str(), -1, &statement, 0) == SQLITE_OK)
         {
             // Bind parameters
             sqlite3_bind_text(statement, 1, file.content_location.c_str(), file.content_location.length(), nullptr);
@@ -117,12 +135,13 @@ int Database::load_file_info(File &file)
         }
 
         if (sqlite3_step(statement) != SQLITE_DONE)
-        {            throw runtime_error(nullptr);
+        {
+            throw runtime_error(nullptr);
         }
 
         // Cleanup
         sqlite3_finalize(statement);
-        sqlite3_close(database);
+        
         return 0;
     }
     catch (const exception &e)
@@ -132,7 +151,6 @@ int Database::load_file_info(File &file)
         {
             sqlite3_finalize(statement);
         }
-        sqlite3_close(database);
 
         // Show notification
         this->notification.notify(7, true);
@@ -141,22 +159,18 @@ int Database::load_file_info(File &file)
     }
 }
 
+/**
+ * Delete data form Files table.
+ */
 int Database::remove_file_info(File &file)
 {
-    sqlite3 *database;
     sqlite3_stmt *statement = nullptr;
     string sql = "DELETE FROM Files WHERE Location = ?";
 
     try
     {
-        // Open databse
-        if (sqlite3_open(Utils::db_path.c_str(), &database) != SQLITE_OK)
-        {
-            throw runtime_error(nullptr);
-        }
-
         // Prepare statement
-        if (sqlite3_prepare_v2(database, sql.c_str(), -1, &statement, 0) == SQLITE_OK)
+        if (sqlite3_prepare_v2(this->database, sql.c_str(), -1, &statement, 0) == SQLITE_OK)
         {
             // Bind parameters
             sqlite3_bind_text(statement, 1, file.content_location.c_str(), file.content_location.length(), nullptr);
@@ -173,7 +187,7 @@ int Database::remove_file_info(File &file)
 
         // Cleanup
         sqlite3_finalize(statement);
-        sqlite3_close(database);
+
         return 0;
     }
     catch (const exception &e)
@@ -183,7 +197,6 @@ int Database::remove_file_info(File &file)
         {
             sqlite3_finalize(statement);
         }
-        sqlite3_close(database);
 
         // Show notification
         this->notification.notify(8, true);
@@ -192,22 +205,18 @@ int Database::remove_file_info(File &file)
     }
 }
 
+/**
+ * Insert metadata of token to Metadata table.
+ */
 int Database::save_token_info(token_info &token_info)
 {
-    sqlite3 *database;
     sqlite3_stmt *statement = nullptr;
     string sql = "INSERT OR REPLACE INTO Metadata (Key, Value) VALUES ('token_expires', ?), ('token_usage', ?)";
 
     try
     {
-        // Open databse
-        if (sqlite3_open(Utils::db_path.c_str(), &database) != SQLITE_OK)
-        {
-            throw runtime_error(nullptr);
-        }
-
         // Prepare statement
-        if (sqlite3_prepare_v2(database, sql.c_str(), -1, &statement, 0) == SQLITE_OK)
+        if (sqlite3_prepare_v2(this->database, sql.c_str(), -1, &statement, 0) == SQLITE_OK)
         {
             auto usage = to_string(token_info.usage);
 
@@ -216,19 +225,19 @@ int Database::save_token_info(token_info &token_info)
             sqlite3_bind_text(statement, 2, usage.c_str(), usage.length(), nullptr);
         }
         else
-        {
+        {            
             throw runtime_error(nullptr);
         }
 
         // Execute prepared statement
         if (sqlite3_step(statement) != SQLITE_DONE)
-        {
+        {            
             throw runtime_error(nullptr);
         }
 
         // Cleanup
         sqlite3_finalize(statement);
-        sqlite3_close(database);
+
         return 0;
     }
     catch (const exception &e)
@@ -238,7 +247,6 @@ int Database::save_token_info(token_info &token_info)
         {
             sqlite3_finalize(statement);
         }
-        sqlite3_close(database);
 
         // Show notification
         this->notification.notify(9, true);
@@ -247,37 +255,33 @@ int Database::save_token_info(token_info &token_info)
     }
 }
 
+/**
+ * Select metadata of token fromto Metadata table.
+ */
 int Database::load_token_info(token_info &token_info)
 {
-    sqlite3 *database;
     sqlite3_stmt *statement = nullptr;
     string sql = "SELECT Key, Value FROM Metadata WHERE Key = 'token_expires' OR Key = 'token_usage'";
 
     try
     {
-        // Open databse
-        if (sqlite3_open(Utils::db_path.c_str(), &database) != SQLITE_OK)
-        {
-            throw runtime_error(nullptr);
-        }
-
         // Prepare statement
-        if (sqlite3_prepare_v2(database, sql.c_str(), -1, &statement, 0) != SQLITE_OK)
+        if (sqlite3_prepare_v2(this->database, sql.c_str(), -1, &statement, 0) != SQLITE_OK)
         {
             throw runtime_error(nullptr);
         }
 
         // Execute prepared statement
-        while(sqlite3_step(statement) != SQLITE_DONE)
+        while (sqlite3_step(statement) != SQLITE_DONE)
         {
             auto key = string(reinterpret_cast<const char *>(sqlite3_column_text(statement, 0)));
             auto value = string(reinterpret_cast<const char *>(sqlite3_column_text(statement, 1)));
-            
-            if(key == "token_expires")
+
+            if (key == "token_expires")
             {
                 token_info.expires = value;
             }
-            else if(key == "token_usage")
+            else if (key == "token_usage")
             {
                 token_info.usage = stoi(value);
             }
@@ -285,7 +289,6 @@ int Database::load_token_info(token_info &token_info)
 
         // Cleanup
         sqlite3_finalize(statement);
-        sqlite3_close(database);
         return 0;
     }
     catch (const exception &e)
@@ -295,7 +298,6 @@ int Database::load_token_info(token_info &token_info)
         {
             sqlite3_finalize(statement);
         }
-        sqlite3_close(database);
 
         // Show notification
         this->notification.notify(10, true);
@@ -304,22 +306,18 @@ int Database::load_token_info(token_info &token_info)
     }
 }
 
+/**
+ * Delete metadata of token from Metadata table.
+ */
 int Database::remove_token_info()
 {
-    sqlite3 *database;
     sqlite3_stmt *statement = nullptr;
     string sql = "DELETE FROM Metadata WHERE Key = 'token_expires' OR Key = 'token_usage'";
 
     try
     {
-        // Open databse
-        if (sqlite3_open(Utils::db_path.c_str(), &database) != SQLITE_OK)
-        {
-            throw runtime_error(nullptr);
-        }
-
         // Prepare statement
-        if (sqlite3_prepare_v2(database, sql.c_str(), -1, &statement, 0) != SQLITE_OK)
+        if (sqlite3_prepare_v2(this->database, sql.c_str(), -1, &statement, 0) != SQLITE_OK)
         {
             throw runtime_error(nullptr);
         }
@@ -331,7 +329,7 @@ int Database::remove_token_info()
 
         // Cleanup
         sqlite3_finalize(statement);
-        sqlite3_close(database);
+
         return 0;
     }
     catch (const exception &e)
@@ -341,7 +339,6 @@ int Database::remove_token_info()
         {
             sqlite3_finalize(statement);
         }
-        sqlite3_close(database);
 
         // Show notification
         this->notification.notify(11, true);

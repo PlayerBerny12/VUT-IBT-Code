@@ -14,7 +14,6 @@ void init()
 {
     notify_init("VDU-App");
     curl_global_init(CURL_GLOBAL_DEFAULT);
-    Utils::load_config();
 }
 
 void cleanup()
@@ -25,7 +24,7 @@ void cleanup()
 
 int process_arguments(int argc, char *argv[], API &api, Database &database)
 {
-    auto &notification = Notification::getInstance();
+    auto &notification = Notification::get_instance();
     auto file = File(api, database, notification);
 
     if (argc == 3)
@@ -33,7 +32,7 @@ int process_arguments(int argc, char *argv[], API &api, Database &database)
         // Process fake file
         if (string(argv[1]) == "--url-handler")
         {
-            notification.notify(0, false);            
+            notification.notify(0, false);
             return file.download(argv[2]);
             return 0;
         }
@@ -48,7 +47,23 @@ int process_arguments(int argc, char *argv[], API &api, Database &database)
         // Process real file
         if (string(argv[1]) == "--real-file")
         {
-            return file.upload(argv[3]);
+            if (string(argv[2]) == "read")
+            {                
+                return file.check(argv[3]);
+            }
+            else if (string(argv[2]) == "save")
+            {
+                return file.upload(argv[3]);
+            }
+            else if (string(argv[2]) == "rename")
+            {
+                return file.rename(argv[3]);
+            }
+            else
+            {
+                return 1;
+            }
+
         }
         else
         {
@@ -66,10 +81,9 @@ int process_arguments(int argc, char *argv[], API &api, Database &database)
 int main(int argc, char *argv[])
 {
     int err_code = 0;
-    auto &notification = Notification::getInstance();   
-    auto database = Database(notification);
+    auto &notification = Notification::get_instance();
+    auto database = Database();
     auto api = API("https://e526bc93-da2e-4001-94a3-d9fa02033458.mock.pstmn.io/", database);
-
     init();
 
     if (api.ping() != 204)
@@ -87,7 +101,7 @@ int main(int argc, char *argv[])
         else
         {
             err_code = process_arguments(argc, argv, api, database);
-            
+
             // Save API state
             api.save_token_info();
         }

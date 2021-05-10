@@ -7,19 +7,45 @@
 // **   Module: Test Main - header                                       ** //
 // ************************************************************************ //
 
+#ifndef VDU_TESTS_H
+#define VDU_TESTS_H
+
 #include "gtest/gtest.h"
-#include "../api.h"
+#include <map>
+#include "../src/api.h"
+
+#define TEST_HEADER_EXIST(header, key) \
+    try{ \
+        header.at(key); \
+    } \
+    catch(const std::exception& e) \
+    { \
+        FAIL() << "Key: '" << key << "' does not exists in HTTP Response header."; \
+    }
+
+#define TEST_HEADER_VALUE_EQ(header, key, value) \
+    try{ \
+        auto x = header.at(key).c_str(); \
+        EXPECT_STREQ(x, value); \
+    } \
+    catch(const std::exception& e) \
+    { \
+        FAIL() << "Key: '" << key << "' does not exit in HTTP Response header."; \
+    }
 
 class APITest : public ::testing::Test {
 protected:
-    APITest() : testAPI("https://e526bc93-da2e-4001-94a3-d9fa02033458.mock.pstmn.io/")
+    APITest()
     {
         // You can do set-up work for each test here.                        
+        auto database = Database();
+        testAPI = new API("https://e526bc93-da2e-4001-94a3-d9fa02033458.mock.pstmn.io/", database);
     }
 
     ~APITest() override
     {
         // You can do clean-up work that doesn't throw exceptions here.
+        delete testAPI;
     }
 
     void SetUp() override
@@ -33,6 +59,8 @@ protected:
         // Code here will be called immediately after each test (right
         // before the destructor).
     }
-
-    API testAPI;
+    
+    API *testAPI;
 };
+
+#endif
