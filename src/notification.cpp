@@ -1,21 +1,35 @@
 #include "notification.h"
 
+/**
+ * Constructor for Notification.
+ */
 Notification::Notification()
     : notification(notify_notification_new("", "", 0))
 {        
 }
 
+/**
+ * Get instance of singleton.
+ */
 Notification& Notification::get_instance()
 {
     static Notification instance;
     return instance;
 }
 
+/**
+ * Dealocate all manualy created atributes.
+ * Call before exiting application.
+ */
 void Notification::cleanup()
 {
     notify_notification_close(this->notification, 0);
 }
 
+/**
+ * Show notification for user based on message code.
+ * Message code is index into messages vector.
+ */
 void Notification::notify(int message_code, bool error)
 {
     try
@@ -34,10 +48,6 @@ void Notification::notify(int message_code, bool error)
         {
             cerr << message.first << endl;
         }
-        else
-        {
-            cout << this->messages[0].first << endl;
-        }
 
         // Show GUI notification with specific timeout
         notify_notification_set_timeout(this->notification, 5000);
@@ -46,6 +56,7 @@ void Notification::notify(int message_code, bool error)
             throw runtime_error("Showing notification failed.");
         }
 
+        // Sleep before exit
         if(error) 
         {
             usleep(5000000);

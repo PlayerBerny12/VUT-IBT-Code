@@ -1,5 +1,3 @@
-// https://github.com/libfuse/libfuse/blob/master/example/passthrough.c
-
 #define FUSE_USE_VERSION 31
 
 #include <dirent.h>
@@ -11,15 +9,21 @@
 #include <string.h>
 #include <unistd.h>
 
+/**
+ * Code was inspired by passthrough example form libfuse Github.
+ * https://github.com/libfuse/libfuse/blob/master/example/passthrough.c
+ */
+
 static void get_full_path(const char *path, char *full_path)
 {
 	// Base path on hosts filesystem
 	char base_path[256];
 	char *home_dir;
-	
-    if ((home_dir = getenv("HOME")) == NULL) {
-        home_dir = getpwuid(getuid())->pw_dir;
-    }
+
+	if ((home_dir = getenv("HOME")) == NULL)
+	{
+		home_dir = getpwuid(getuid())->pw_dir;
+	}
 
 	// Set base path
 	strcpy(base_path, home_dir);
@@ -54,6 +58,10 @@ static int fuse_getattr(const char *path, struct stat *stbuf,
 
 	// Get information about file
 	int res = lstat(full_path, stbuf);
+
+	// mask root user as owner
+	stbuf->st_uid = getuid();
+
 	if (res == -1)
 	{
 		return -errno;
@@ -64,15 +72,23 @@ static int fuse_getattr(const char *path, struct stat *stbuf,
 
 static int fuse_access(const char *path, int mask)
 {
-	// Full path
-	char full_path[255 + 13 + 1];
-	get_full_path(path, full_path);
+	(void)mask;
 
-	// Check access
-	int res = access(full_path, mask);
-	if (res == -1)
+	if (strcmp(path, "/") != 0 && path[1] != '.')
 	{
-		return -errno;
+
+		char command_vdu[512] = "/mnt/code/vdu-app --real-file check '";
+		char return_val[256];
+		strcat(command_vdu, path);
+		strcat(command_vdu, "'");
+
+		FILE *f = popen(command_vdu, "r");
+
+		fgets(return_val, 256, f);
+
+		pclose(f);
+
+		return atoi(return_val);
 	}
 
 	return 0;
@@ -124,6 +140,33 @@ static int fuse_unlink(const char *path)
 
 	// Remove name and its references
 	int res = unlink(full_path);
+	if (res == -1)
+	{
+		return -errno;
+	}
+
+	return 0;
+}
+
+static int fuse_truncate(const char *path, off_t size,
+						 struct fuse_file_info *fi)
+{
+	int res;
+
+	// Full path
+	char full_path[255 + 13 + 1];
+	get_full_path(path, full_path);
+
+	// Truncate
+	if (fi != NULL)
+	{
+		res = ftruncate(fi->fh, size);
+	}
+	else
+	{
+		res = truncate(full_path, size);
+	}
+
 	if (res == -1)
 	{
 		return -errno;
@@ -228,7 +271,7 @@ static int fuse_write(const char *path, const char *buf, size_t size, off_t offs
 					  struct fuse_file_info *fi)
 {
 	(void)fi;
-	printf("%s", "write");
+
 	// Full path
 	char full_path[255 + 13 + 1];
 	get_full_path(path, full_path);
@@ -263,18 +306,19 @@ static int fuse_write(const char *path, const char *buf, size_t size, off_t offs
 	}
 
 	// Upload new version to VDU
+	if (path[1] != '.') {
+		char command_vdu[512] = "/mnt/code/vdu-app --real-file save '";
+		
+		strcat(command_vdu, path);
+		strcat(command_vdu, "'");
 
-	char command_vdu[512] = "/mnt/code/vdu-app --real-file save '";
-	char return_val[1];
-	strcat(command_vdu, path);
-	strcat(command_vdu, "'");
-
-	FILE *f = popen(command_vdu, "r");
-	
-	fgets(return_val, 1, f);
-	printf("%s\n", return_val);
-	
-	pclose(f);
+		if(fork() == 0) 
+		{
+			FILE *f = popen(command_vdu, "r");
+			pclose(f);
+			exit(0);
+		}
+	}
 
 	return res;
 }
@@ -284,19 +328,33 @@ static int fuse_rename(const char *from, const char *to, unsigned int flags)
 	// Full paths
 	char full_path_from[255 + 13 + 1];
 	char full_path_to[255 + 13 + 1];
-	get_full_path(from, full_path_from);	
-	get_full_path(to, full_path_to);	
+	get_full_path(from, full_path_from);
+	get_full_path(to, full_path_to);
 
 	if (flags)
 	{
 		return -EINVAL;
 	}
 
-	// Rename
+	// Rename in file system
 	int res = rename(full_path_from, full_path_to);
 	if (res == -1)
 	{
 		return -errno;
+	}
+
+	// Rename in VDU
+	char command_vdu[512] = "/mnt/code/vdu-app --real-file rename '";		
+	strcat(command_vdu, from);
+	strcat(command_vdu, "' '");
+	strcat(command_vdu, to);
+	strcat(command_vdu, "'");
+	
+	if(fork() == 0) 
+	{
+		FILE *f = popen(command_vdu, "r");
+		pclose(f);
+		exit(0);
 	}
 
 	return 0;
@@ -317,6 +375,7 @@ static const struct fuse_operations fuse_opers = {
 	.access = fuse_access,
 	.readdir = fuse_readdir,
 	.unlink = fuse_unlink,
+	.truncate = fuse_truncate,
 	.utimens = fuse_utimens,
 	.open = fuse_open,
 	.create = fuse_create,
@@ -327,13 +386,17 @@ static const struct fuse_operations fuse_opers = {
 
 int main(int argc, char *argv[])
 {
+	// Set default permission of files on hosts filesystem
+	umask(0007);
+
 	// Create path on hosts filesystem
 	char base_path[256];
 	char *home_dir;
-	
-    if ((home_dir = getenv("HOME")) == NULL) {
-        home_dir = getpwuid(getuid())->pw_dir;
-    }
+
+	if ((home_dir = getenv("HOME")) == NULL)
+	{
+		home_dir = getpwuid(getuid())->pw_dir;
+	}
 
 	// Set base path
 	strcpy(base_path, home_dir);
@@ -344,9 +407,6 @@ int main(int argc, char *argv[])
 	strcat(base_path, "/fuse");
 	mkdir(base_path, 0700);
 
-	// Set default permission of files on hosts filesystem
-	umask(0007);
-
 	// Start daemon
-	return fuse_main(argc, argv, &fuse_opers, NULL);	
+	return fuse_main(argc, argv, &fuse_opers, NULL);
 }

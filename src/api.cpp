@@ -10,7 +10,7 @@
 #include "api.h"
 
 /**
- * Constructor for API
+ * Constructor for API.
  */
 API::API(const string url, Database &database)
     : utils(Utils::get_instance()), database(database), base_url(url), request_header(nullptr)
@@ -19,7 +19,7 @@ API::API(const string url, Database &database)
 }
 
 /**
- * Destructor for API
+ * Destructor for API.
  */
 API::~API()
 {
@@ -466,7 +466,7 @@ int API::file_delete(map<string, string> *header_values)
 }
 
 /**
- * Authenticate user (load token from keyring or make HTTP POST call /api/key)
+ * Authenticate user (load token from keyring or make HTTP POST call /api/key).
  */
 int API::authenticate()
 {
@@ -563,7 +563,7 @@ int API::authenticate()
 }
 
 /**
- * Renew token
+ * Renew token.
  */
 int API::renew_token()
 {

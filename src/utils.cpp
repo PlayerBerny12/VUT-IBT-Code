@@ -34,7 +34,7 @@ Utils::Utils()
 }
 
 /**
- * Creating config file in user home folder if not exists
+ * Creating config file in user home folder if not exists.
  */
 void Utils::creat_config_if_not_exists()
 {    
@@ -75,7 +75,7 @@ Username = username\n\
 }
 
 /**
- * Loading configuration atributes
+ * Loading configuration atributes.
  */
 void Utils::load_config()
 {
@@ -137,7 +137,7 @@ void Utils::load_config()
 }
 
 /**
- * Get instance of singleton
+ * Get instance of singleton.
  */
 Utils &Utils::get_instance()
 {
@@ -146,7 +146,7 @@ Utils &Utils::get_instance()
 }
 
 /**
- * Open file in assigned application via xdg-open
+ * Open file in assigned application via xdg-open.
  */
 void Utils::run_xdg_open(string &filename)
 {
@@ -161,7 +161,7 @@ void Utils::run_xdg_open(string &filename)
 }
 
 /**
- * Open Zenity password dialog to get password form user
+ * Open Zenity password dialog to get password form user.
  */
 void Utils::run_zenity_password(string &password)
 {
@@ -187,7 +187,7 @@ void Utils::run_zenity_password(string &password)
 }
 
 /**
- * Save secret to keyring
+ * Save secret to keyring.
  */
 int Utils::save_secret(string &secret, const char *name)
 {
@@ -214,7 +214,7 @@ int Utils::save_secret(string &secret, const char *name)
 }
 
 /**
- * Load secret from keyring
+ * Load secret from keyring.
  */
 int Utils::load_secret(string &secret, const char *name)
 {
@@ -243,7 +243,7 @@ int Utils::load_secret(string &secret, const char *name)
 }
 
 /**
- * Remove secret form keyring
+ * Remove secret form keyring.
  */
 int Utils::clear_secret(const char *name)
 {

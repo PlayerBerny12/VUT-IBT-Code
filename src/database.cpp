@@ -10,7 +10,7 @@
 #include "database.h"
 
 /**
- * Constructor for Database
+ * Constructor for Database.
  */
 Database::Database()
     : notification(Notification::get_instance()), utils(Utils::get_instance())
@@ -38,7 +38,7 @@ Database::Database()
 }
 
 /**
- * Destructor for Database
+ * Destructor for Database.
  */
 Database::~Database()
 {

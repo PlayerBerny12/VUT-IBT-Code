@@ -36,12 +36,14 @@ private:
     API &api;
     Database &database;
     Notification &notification;
+    Utils &utils;
 
     string get_full_path();
-    int validate_file(unsigned char *content, size_t size);
     void map_header_vales(map<string, string> header_values);
+    int validate_file(unsigned char *content, size_t size);
     int save_file(char *content);
-    void open_file();    
+    void open_file(); 
+    int test_and_authenticate();
 
 public:
     string allow;
@@ -53,12 +55,12 @@ public:
 
     string access_token;
 
-    File(API &api, Database &database, Notification &notification);
+    File(API &api, Database &database);
     ~File();
     int download(const string &url);
     int upload(string path);
-    int check(string path);
-    int rename(string path);
+    int check(string path);    
+    int rename(string from, string to);
 };
 
 #endif

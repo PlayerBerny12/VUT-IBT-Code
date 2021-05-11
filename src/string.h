@@ -9,9 +9,12 @@
 
 #ifndef VDU_String_H
 #define VDU_String_H
+
 /**
  * Code for `ltrim`, `rtrim` and `trim` was taken over from:
  * https://stackoverflow.com/questions/216823/whats-the-best-way-to-trim-stdstring 
+ * 
+ * Author: Evan Teran
  */
 
 #include <algorithm> 

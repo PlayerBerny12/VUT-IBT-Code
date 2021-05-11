@@ -14,5 +14,6 @@
  * will probably fails too.
  */
 TEST_F(APITest, ping) {
+    // Execute request and test returned value
     ASSERT_EQ(testAPI->ping(), 204);
 }

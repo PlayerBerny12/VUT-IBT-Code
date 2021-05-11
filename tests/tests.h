@@ -14,6 +14,7 @@
 #include <map>
 #include "../src/api.h"
 
+// Macro for testing if key exists in HTTP header (std::map<string, string>)
 #define TEST_HEADER_EXIST(header, key) \
     try{ \
         header.at(key); \
@@ -23,6 +24,8 @@
         FAIL() << "Key: '" << key << "' does not exists in HTTP Response header."; \
     }
 
+// Macro for testing if key exists and also if value is same as expected
+// in HTTP header (std::map<string, string>)
 #define TEST_HEADER_VALUE_EQ(header, key, value) \
     try{ \
         auto x = header.at(key).c_str(); \
@@ -33,31 +36,21 @@
         FAIL() << "Key: '" << key << "' does not exit in HTTP Response header."; \
     }
 
+/**
+ * Tříd APITest vytváří prostředí pro jednotlivé testy. Alokuje a dealokuje
+ * potřebné struktury a objekty pro jednotlivé testy.
+ */
 class APITest : public ::testing::Test {
 protected:
     APITest()
-    {
-        // You can do set-up work for each test here.                        
+    {        
         auto database = Database();
         testAPI = new API("https://e526bc93-da2e-4001-94a3-d9fa02033458.mock.pstmn.io/", database);
     }
 
     ~APITest() override
-    {
-        // You can do clean-up work that doesn't throw exceptions here.
+    {        
         delete testAPI;
-    }
-
-    void SetUp() override
-    {
-        // Code here will be called immediately after the constructor (right
-        // before each test).
-    }
-
-    void TearDown() override
-    {
-        // Code here will be called immediately after each test (right
-        // before the destructor).
     }
     
     API *testAPI;
