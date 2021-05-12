@@ -66,6 +66,10 @@ int process_arguments(int argc, char *argv[])
             {
                 return file.upload(argv[3]);
             }
+            else if (string(argv[2]) == "delete")
+            {
+                return file.remove(argv[3]);
+            }
         }
         else
         {

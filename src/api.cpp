@@ -358,6 +358,7 @@ int API::file_post(string access_token, map<string, string> *header_values, cons
     this->request_header = curl_slist_append(this->request_header, "content-length: ");
     this->request_header = curl_slist_append(this->request_header, "content-location: ");
     this->request_header = curl_slist_append(this->request_header, "content-md5: ");
+    // TODO
     this->request_header = curl_slist_append(this->request_header, "content-type: text/plain");
 
 #ifdef VDU_DEV

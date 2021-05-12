@@ -34,7 +34,7 @@ TEST_F(APITest, file_get_200)
     TEST_HEADER_VALUE_EQ(header, "allow", "GET POST");
     TEST_HEADER_VALUE_EQ(header, "content-location", "Test Filename");
     TEST_HEADER_VALUE_EQ(header, "content-md5", "e0642264a62cafede3e255c44f561449");
-    TEST_HEADER_VALUE_EQ(header, "expires", "Fri, 7 May 2021 13:12:47 GMT");
+    TEST_HEADER_VALUE_EQ(header, "expires", "Fri, 3 Sep 2021 13:12:47 GMT");
     TEST_HEADER_VALUE_EQ(header, "last-modified", "Fri, 30 Apr 2021 11:39:57 GMT");
 
     EXPECT_EQ(size, 24);
@@ -60,7 +60,7 @@ TEST_F(APITest, file_get_401)
     TEST_HEADER_EXIST(header, "date");
 
     // Check if value is as expected in HTTP header
-    TEST_HEADER_VALUE_EQ(header, "expires", "Fri, 7 May 2021 13:12:47 GMT");
+    TEST_HEADER_VALUE_EQ(header, "expires", "Fri, 3 Sep 2021 13:12:47 GMT");
 
     EXPECT_EQ(size, 0);
     EXPECT_STREQ(content, nullptr);
@@ -85,7 +85,7 @@ TEST_F(APITest, file_get_404)
     TEST_HEADER_EXIST(header, "date");
 
     // Check if value is as expected in HTTP header
-    TEST_HEADER_VALUE_EQ(header, "expires", "Fri, 7 May 2021 13:12:47 GMT");
+    TEST_HEADER_VALUE_EQ(header, "expires", "Fri, 3 Sep 2021 13:12:47 GMT");
 
     EXPECT_EQ(size, 0);
     EXPECT_STREQ(content, nullptr);
@@ -110,7 +110,7 @@ TEST_F(APITest, file_get_405)
     TEST_HEADER_EXIST(header, "date");
 
     // Check if value is as expected in HTTP header
-    TEST_HEADER_VALUE_EQ(header, "expires", "Fri, 7 May 2021 13:12:47 GMT");
+    TEST_HEADER_VALUE_EQ(header, "expires", "Fri, 3 Sep 2021 13:12:47 GMT");
 
     EXPECT_EQ(size, 0);
     EXPECT_STREQ(content, nullptr);
@@ -135,7 +135,7 @@ TEST_F(APITest, file_get_408)
     TEST_HEADER_EXIST(header, "date");
 
     // Check if value is as expected in HTTP header
-    TEST_HEADER_VALUE_EQ(header, "expires", "Fri, 7 May 2021 13:12:47 GMT");
+    TEST_HEADER_VALUE_EQ(header, "expires", "Fri, 3 Sep 2021 13:12:47 GMT");
 
     EXPECT_EQ(size, 0);
     EXPECT_STREQ(content, nullptr);
@@ -161,7 +161,7 @@ TEST_F(APITest, file_post_201)
 
     // Check if value is as expected in HTTP header
     TEST_HEADER_VALUE_EQ(header, "allow", "GET POST");
-    TEST_HEADER_VALUE_EQ(header, "expires", "Fri, 7 May 2021 13:12:47 GMT");
+    TEST_HEADER_VALUE_EQ(header, "expires", "Fri, 3 Sep 2021 13:12:47 GMT");
 }
 
 /*
@@ -184,7 +184,7 @@ TEST_F(APITest, file_post_205)
 
     // Check if value is as expected in HTTP header
     TEST_HEADER_VALUE_EQ(header, "allow", "GET POST");
-    TEST_HEADER_VALUE_EQ(header, "expires", "Fri, 7 May 2021 13:12:47 GMT");
+    TEST_HEADER_VALUE_EQ(header, "expires", "Fri, 3 Sep 2021 13:12:47 GMT");
 }
 
 /*
@@ -205,7 +205,7 @@ TEST_F(APITest, file_post_401)
     TEST_HEADER_EXIST(header, "date");
 
     // Check if value is as expected in HTTP header
-    TEST_HEADER_VALUE_EQ(header, "expires", "Fri, 7 May 2021 13:12:47 GMT");
+    TEST_HEADER_VALUE_EQ(header, "expires", "Fri, 3 Sep 2021 13:12:47 GMT");
 }
 
 /*
@@ -226,7 +226,7 @@ TEST_F(APITest, file_post_404)
     TEST_HEADER_EXIST(header, "date");
 
     // Check if value is as expected in HTTP header
-    TEST_HEADER_VALUE_EQ(header, "expires", "Fri, 7 May 2021 13:12:47 GMT");
+    TEST_HEADER_VALUE_EQ(header, "expires", "Fri, 3 Sep 2021 13:12:47 GMT");
 }
 
 /*
@@ -247,7 +247,7 @@ TEST_F(APITest, file_post_405)
     TEST_HEADER_EXIST(header, "date");
 
     // Check if value is as expected in HTTP header
-    TEST_HEADER_VALUE_EQ(header, "expires", "Fri, 7 May 2021 13:12:47 GMT");
+    TEST_HEADER_VALUE_EQ(header, "expires", "Fri, 3 Sep 2021 13:12:47 GMT");
 }
 
 /*
@@ -268,7 +268,7 @@ TEST_F(APITest, file_post_408)
     TEST_HEADER_EXIST(header, "date");
 
     // Check if value is as expected in HTTP header
-    TEST_HEADER_VALUE_EQ(header, "expires", "Fri, 7 May 2021 13:12:47 GMT");
+    TEST_HEADER_VALUE_EQ(header, "expires", "Fri, 3 Sep 2021 13:12:47 GMT");
 }
 
 /*
@@ -289,7 +289,7 @@ TEST_F(APITest, file_post_409)
     TEST_HEADER_EXIST(header, "date");
 
     // Check if value is as expected in HTTP header
-    TEST_HEADER_VALUE_EQ(header, "expires", "Fri, 7 May 2021 13:12:47 GMT");
+    TEST_HEADER_VALUE_EQ(header, "expires", "Fri, 3 Sep 2021 13:12:47 GMT");
 }
 
 /*

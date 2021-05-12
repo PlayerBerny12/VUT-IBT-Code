@@ -26,7 +26,7 @@ TEST_F(APITest, auth_key_get_200)
     TEST_HEADER_EXIST(header, "date");
     
     // Check if value is as expected in HTTP header
-    TEST_HEADER_VALUE_EQ(header, "expires", "Fri, 7 May 2021 13:12:47 GMT");
+    TEST_HEADER_VALUE_EQ(header, "expires", "Fri, 3 Sep 2021 13:12:47 GMT");
     TEST_HEADER_VALUE_EQ(header, "x-api-key", "s5adg65as5nd99fuh");
 }
 
@@ -47,7 +47,7 @@ TEST_F(APITest, auth_key_get_401)
     TEST_HEADER_EXIST(header, "date");
     
     // Check if value is as expected in HTTP header
-    TEST_HEADER_VALUE_EQ(header, "expires", "Fri, 7 May 2021 13:12:47 GMT");    
+    TEST_HEADER_VALUE_EQ(header, "expires", "Fri, 3 Sep 2021 13:12:47 GMT");    
 }
 
 /*
@@ -69,7 +69,7 @@ TEST_F(APITest, auth_key_post_201)
     TEST_HEADER_EXIST(header, "date");
     
     // Check if value is as expected in HTTP header
-    TEST_HEADER_VALUE_EQ(header, "expires", "Fri, 7 May 2021 13:12:47 GMT");
+    TEST_HEADER_VALUE_EQ(header, "expires", "Fri, 3 Sep 2021 13:12:47 GMT");
     TEST_HEADER_VALUE_EQ(header, "x-api-key", "t12asd3maa123gko");
 }
 
@@ -92,7 +92,7 @@ TEST_F(APITest, auth_key_post_401)
     TEST_HEADER_EXIST(header, "date");
     
     // Check if value is as expected in HTTP header
-    TEST_HEADER_VALUE_EQ(header, "expires", "Fri, 7 May 2021 13:12:47 GMT");    
+    TEST_HEADER_VALUE_EQ(header, "expires", "Fri, 3 Sep 2021 13:12:47 GMT");    
 }
 
 /*

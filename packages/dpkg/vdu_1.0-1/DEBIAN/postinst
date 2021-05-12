@@ -1,0 +1,13 @@
+#!/bin/bash
+
+mkdir /mnt/vdu
+
+chown root /usr/local/bin/vdu-app-fuse
+chmod 4755 /usr/local/bin/vdu-app-fuse
+chmod 644 /usr/share/applications/vdu.desktop
+chmod 644 /etc/systemd/user/vdu.service
+
+xdg-mime default vdu.desktop x-scheme-handler/vdu
+update-desktop-database
+systemctl daemon-reload
+systemctl --global enable vdu.service

@@ -128,13 +128,13 @@ int File::test_and_authenticate()
 /**
  * Download file from VDU to file system.
  */
-int File::download(const string &url)
-{
+int File::download(string url)
+{     
     map<string, string> header_values;
     char *content = nullptr;
     size_t size = 0;
 
-    // Retrieve access token from url
+    // Retrieve access token from url    
     this->access_token = url.substr(6);
 
     // Test and authentificate user
@@ -218,11 +218,14 @@ int File::check(string path)
     this->content_location = path.substr(1);
 
     // Load datab from db
-    this->database.load_file_info(*this);
+    if(this->database.load_file_info(*this)) 
+    {
+        return 1;
+    }
 
     time_t expires = curl_getdate(this->expires.c_str(), nullptr);
     if (difftime(expires, chrono::system_clock::to_time_t(chrono::system_clock::now())) < 0)
-    {
+    {        
         this->download("vdu://" + this->access_token);
     }
 
@@ -235,7 +238,7 @@ int File::check(string path)
 }
 
 /**
- * Rename file in database (local changes)
+ * Rename file in database
  */
 int File::rename(string from, string to)
 {
@@ -249,6 +252,18 @@ int File::rename(string from, string to)
         {
             return 1;
         }
+    }
+    else if(to[1] == '.')
+    {
+        // Set old Content Location withoout first /
+        this->content_location = from.substr(1);
+
+        if(this->database.remove_file_info(*this)) 
+        {
+            return 1;
+        }
+
+        return 0;
     }
     else
     {
@@ -275,8 +290,20 @@ int File::rename(string from, string to)
             return 1;
         }
     }
-
+    
     this->upload("/" + this->content_location);
 
     return 0;
+}
+
+/**
+ * Remove file in database (local changes)
+ */
+int File::remove(string path)
+{
+    // Set Content Location withoout first /
+    this->content_location = path.substr(1);
+
+    // Load datab from db
+    return this->database.remove_file_info(*this);
 }

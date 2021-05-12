@@ -1,3 +1,12 @@
+// ************************************************************************ //
+// **   Project: Application for controlled access                       ** //
+// **            to remote documents for GNU\Linux                       ** //
+// **   University: VUT FIT Brno                                         ** //
+// **   Authors: Jan Bernard                                             ** //
+// **   Created: 10.04.2021                                              ** //
+// **   Module: FUSE daemon                                              ** //
+// ************************************************************************ //
+
 #define FUSE_USE_VERSION 31
 
 #include <dirent.h>
@@ -76,8 +85,7 @@ static int fuse_access(const char *path, int mask)
 
 	if (strcmp(path, "/") != 0 && path[1] != '.')
 	{
-
-		char command_vdu[512] = "/mnt/code/vdu-app --real-file check '";
+		char command_vdu[512] = "/usr/local/bin/vdu-app --real-file check '";
 		char return_val[256];
 		strcat(command_vdu, path);
 		strcat(command_vdu, "'");
@@ -143,6 +151,22 @@ static int fuse_unlink(const char *path)
 	if (res == -1)
 	{
 		return -errno;
+	}
+
+	if (path[1] != '.')
+	{
+		char command_vdu[512] = "/usr/local/bin/vdu-app --real-file delete '";
+		char return_val[256];
+		strcat(command_vdu, path);
+		strcat(command_vdu, "'");
+
+		FILE *f = popen(command_vdu, "r");
+
+		fgets(return_val, 256, f);
+
+		pclose(f);
+
+		return atoi(return_val);
 	}
 
 	return 0;
@@ -307,7 +331,7 @@ static int fuse_write(const char *path, const char *buf, size_t size, off_t offs
 
 	// Upload new version to VDU
 	if (path[1] != '.') {
-		char command_vdu[512] = "/mnt/code/vdu-app --real-file save '";
+		char command_vdu[512] = "/usr/local/bin/vdu-app --real-file save '";
 		
 		strcat(command_vdu, path);
 		strcat(command_vdu, "'");
@@ -344,7 +368,7 @@ static int fuse_rename(const char *from, const char *to, unsigned int flags)
 	}
 
 	// Rename in VDU
-	char command_vdu[512] = "/mnt/code/vdu-app --real-file rename '";		
+	char command_vdu[512] = "/usr/local/bin/vdu-app --real-file rename '";		
 	strcat(command_vdu, from);
 	strcat(command_vdu, "' '");
 	strcat(command_vdu, to);
@@ -396,7 +420,7 @@ int main(int argc, char *argv[])
 	if ((home_dir = getenv("HOME")) == NULL)
 	{
 		home_dir = getpwuid(getuid())->pw_dir;
-	}
+	}	
 
 	// Set base path
 	strcpy(base_path, home_dir);

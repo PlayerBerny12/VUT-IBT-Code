@@ -6,7 +6,7 @@
 # **   Created: 17.11.2020                                                ** #
 # **   Module: makefile                                                   ** #
 # ************************************************************************** #
-.PHONY: run run_tests build build_tests doxygen clean
+.PHONY: run_unit_tests build build_unit_tests doxygen clean
 
 # C compiler variables
 C = gcc
@@ -32,16 +32,13 @@ TARGET = vdu-app
 TARGETFUSE = vdu-app-fuse
 TARGETTESTS = vdu-app-tests
 
-all: build build_fuse
+all: build build_fuse build_unit_tests
 
-run: build
-	./$(TARGET)
-
-run_fuse: build_fuse
-	./$(TARGETFUSE)
-
-run_tests: build_tests
+run_unit_tests: build_unit_tests
 	./$(TARGETTESTS)
+
+run_behave_tests:
+	python3 -m behave tests/behave
 
 build: $(OBJFILES)
 	$(CPP) $(CPPFLAGS) -o $(TARGET) $^ src/string.h src/main.cpp -lcurl -lsqlite3 -lcrypto \
@@ -59,12 +56,12 @@ $(OBJDIR)/%.o: src/%.cpp
 build_fuse:
 	$(C) $(CFLAGS) -o $(TARGETFUSE) src/fuse/main.c `pkg-config --cflags --libs fuse3`
 
-build_tests: $(OBJTESTFILES) $(OBJFILES)
-	$(CPP) $(CPPFLAGS) -pthread -o $(TARGETTESTS) $^ src/string.h tests/tests.cpp -lgtest -lpthread -lcurl -lsqlite3 -lcrypto \
+build_unit_tests: $(OBJTESTFILES) $(OBJFILES)
+	$(CPP) $(CPPFLAGS) -pthread -o $(TARGETTESTS) $^ src/string.h tests/unit/tests.cpp -lgtest -lpthread -lcurl -lsqlite3 -lcrypto \
 	`pkg-config --libs --cflags libnotify` \
 	`pkg-config --libs --cflags libsecret-1`
 
-$(OBJDIR)/%.o: tests/%.cpp
+$(OBJDIR)/%.o: tests/unit/%.cpp
 	$(CPP) $(CPPFLAGS) -c -o $@ $< \
 	`pkg-config --libs --cflags libnotify` \
 	`pkg-config --libs --cflags libsecret-1`

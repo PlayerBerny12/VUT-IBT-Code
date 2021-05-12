@@ -34,46 +34,6 @@
 					},
 					"response": [
 						{
-							"name": "Invalid X-API-Key.",
-							"originalRequest": {
-								"method": "GET",
-								"header": [
-									{
-										"description": "(Required) The last auth key token.",
-										"key": "X-Api-Key",
-										"value": "<string>"
-									}
-								],
-								"url": {
-									"raw": "{{baseUrl}}/auth/key",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"auth",
-										"key"
-									]
-								}
-							},
-							"status": "Unauthorized",
-							"code": 401,
-							"_postman_previewlanguage": "text",
-							"header": [
-								{
-									"key": "Date",
-									"value": "",
-									"description": "The date and time at which the message was originated (in \"HTTP-date\" format as defined by RFC 7231 Date/Time Formats)."
-								},
-								{
-									"key": "Expires",
-									"value": "Fri, 7 May 2021 13:12:47 GMT",
-									"description": "Gives the date/time after which the response is considered stale (in \"HTTP-date\" format as defined by RFC 7231)."
-								}
-							],
-							"cookie": [],
-							"body": ""
-						},
-						{
 							"name": "The success.",
 							"originalRequest": {
 								"method": "GET",
@@ -112,7 +72,47 @@
 								},
 								{
 									"key": "Expires",
-									"value": "Fri, 7 May 2021 13:12:47 GMT",
+									"value": "Fri, 3 Sep 2021 13:12:47 GMT",
+									"description": "Gives the date/time after which the response is considered stale (in \"HTTP-date\" format as defined by RFC 7231)."
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Invalid X-API-Key.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "(Required) The last auth key token.",
+										"key": "X-Api-Key",
+										"value": "<string>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/auth/key",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"auth",
+										"key"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Date",
+									"value": "",
+									"description": "The date and time at which the message was originated (in \"HTTP-date\" format as defined by RFC 7231 Date/Time Formats)."
+								},
+								{
+									"key": "Expires",
+									"value": "Fri, 3 Sep 2021 13:12:47 GMT",
 									"description": "Gives the date/time after which the response is considered stale (in \"HTTP-date\" format as defined by RFC 7231)."
 								}
 							],
@@ -189,7 +189,7 @@
 								},
 								{
 									"key": "Expires",
-									"value": "Fri, 7 May 2021 13:12:47 GMT",
+									"value": "Fri, 3 Sep 2021 13:12:47 GMT",
 									"description": "Gives the date/time after which the response is considered stale (in \"HTTP-date\" format as defined by RFC 7231)."
 								}
 							],
@@ -238,7 +238,7 @@
 								},
 								{
 									"key": "Expires",
-									"value": "Fri, 7 May 2021 13:12:47 GMT",
+									"value": "Fri, 3 Sep 2021 13:12:47 GMT",
 									"description": "Gives the date/time after which the response is considered stale (in \"HTTP-date\" format as defined by RFC 7231)."
 								}
 							],
@@ -298,7 +298,7 @@
 							"header": [
 								{
 									"key": "Date",
-									"value": "non reprehenderit in nostrud",
+									"value": "",
 									"description": "The date and time at which the message was originated (in \"HTTP-date\" format as defined by RFC 7231 Date/Time Formats)."
 								}
 							],
@@ -333,7 +333,7 @@
 							"header": [
 								{
 									"key": "Date",
-									"value": "non reprehenderit in nostrud",
+									"value": "",
 									"description": "The date and time at which the message was originated (in \"HTTP-date\" format as defined by RFC 7231 Date/Time Formats)."
 								}
 							],
@@ -379,6 +379,81 @@
 					},
 					"response": [
 						{
+							"name": "The success.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "(Required) The last auth key token.",
+										"key": "X-Api-Key",
+										"value": "<string>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/file/:file-access-token",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"file",
+										":file-access-token"
+									],
+									"variable": [
+										{
+											"key": "file-access-token"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Allow",
+									"value": "GET POST",
+									"description": "Valid methods for a specified resource (GET for read-only, POST for write-only, GET POST for the ability to read multiple times and also write)."
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "",
+									"description": "The type of encoding used on the data."
+								},
+								{
+									"key": "Content-Location",
+									"value": "Test Filename",
+									"description": "An alternate location for the returned data (a filename)."
+								},
+								{
+									"key": "Content-MD5",
+									"value": "e0642264a62cafede3e255c44f561449",
+									"description": "A Base64-encoded binary MD5 sum of the content of the response."
+								},
+								{
+									"key": "Date",
+									"value": "",
+									"description": "The date and time at which the message was originated (in \"HTTP-date\" format as defined by RFC 7231 Date/Time Formats)."
+								},
+								{
+									"key": "Expires",
+									"value": "Fri, 3 Sep 2021 13:12:47 GMT",
+									"description": "Gives the date/time after which the response is considered stale so its new version cannot be posted (in \"HTTP-date\" format as defined by RFC 7231)."
+								},
+								{
+									"key": "Last-Modified",
+									"value": "Fri, 30 Apr 2021 11:39:57 GMT",
+									"description": "The last modified date for the requested object (in \"HTTP-date\" format as defined by RFC 7231)."
+								},
+								{
+									"key": "ETag",
+									"value": "",
+									"description": "An identifier for a specific version of a resource, i.e., a version number."
+								}
+							],
+							"cookie": [],
+							"body": "conent of requested file"
+						},
+						{
 							"name": "Invalid X-API-Key.",
 							"originalRequest": {
 								"method": "GET",
@@ -416,7 +491,7 @@
 								},
 								{
 									"key": "Expires",
-									"value": "Fri, 7 May 2021 13:12:47 GMT",
+									"value": "Fri, 3 Sep 2021 13:12:47 GMT",
 									"description": "Gives the date/time after which the response is considered stale so its new version cannot be posted (in \"HTTP-date\" format as defined by RFC 7231)."
 								}
 							],
@@ -461,7 +536,7 @@
 								},
 								{
 									"key": "Expires",
-									"value": "Fri, 7 May 2021 13:12:47 GMT",
+									"value": "Fri, 3 Sep 2021 13:12:47 GMT",
 									"description": "Gives the date/time after which the response is considered stale so its new version cannot be posted (in \"HTTP-date\" format as defined by RFC 7231)."
 								}
 							],
@@ -506,7 +581,7 @@
 								},
 								{
 									"key": "Expires",
-									"value": "Fri, 7 May 2021 13:12:47 GMT",
+									"value": "Fri, 3 Sep 2021 13:12:47 GMT",
 									"description": "Gives the date/time after which the response is considered stale so its new version cannot be posted (in \"HTTP-date\" format as defined by RFC 7231)."
 								}
 							],
@@ -551,96 +626,12 @@
 								},
 								{
 									"key": "Expires",
-									"value": "Fri, 7 May 2021 13:12:47 GMT",
+									"value": "Fri, 3 Sep 2021 13:12:47 GMT",
 									"description": "Gives the date/time after which the response is considered stale so its new version cannot be posted (in \"HTTP-date\" format as defined by RFC 7231)."
 								}
 							],
 							"cookie": [],
 							"body": ""
-						},
-						{
-							"name": "The success.",
-							"originalRequest": {
-								"method": "GET",
-								"header": [
-									{
-										"description": "(Required) The last auth key token.",
-										"key": "X-Api-Key",
-										"value": "<string>"
-									}
-								],
-								"url": {
-									"raw": "{{baseUrl}}/file/:file-access-token",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"file",
-										":file-access-token"
-									],
-									"variable": [
-										{
-											"key": "file-access-token"
-										}
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "text",
-							"header": [
-								{
-									"key": "Allow",
-									"value": "GET",
-									"description": "Valid methods for a specified resource (GET for read-only, POST for write-only, GET POST for the ability to read multiple times and also write)."
-								},
-								{
-									"key": "Content-Encoding",
-									"value": "",
-									"description": "The type of encoding used on the data."
-								},
-								{
-									"key": "Content-Length",
-									"value": "",
-									"description": "The length of the response body in octets (8-bit bytes)."
-								},
-								{
-									"key": "Content-Location",
-									"value": "Test Filename",
-									"description": "An alternate location for the returned data (a filename)."
-								},
-								{
-									"key": "Content-MD5",
-									"value": "e0642264a62cafede3e255c44f561449",
-									"description": "A Base64-encoded binary MD5 sum of the content of the response."
-								},
-								{
-									"key": "Date",
-									"value": "",
-									"description": "The date and time at which the message was originated (in \"HTTP-date\" format as defined by RFC 7231 Date/Time Formats)."
-								},
-								{
-									"key": "Expires",
-									"value": "Fri, 7 May 2021 13:12:47 GMT",
-									"description": "Gives the date/time after which the response is considered stale so its new version cannot be posted (in \"HTTP-date\" format as defined by RFC 7231)."
-								},
-								{
-									"key": "Last-Modified",
-									"value": "Fri, 30 Apr 2021 11:39:57 GMT",
-									"description": "The last modified date for the requested object (in \"HTTP-date\" format as defined by RFC 7231)."
-								},
-								{
-									"key": "ETag",
-									"value": "",
-									"description": "An identifier for a specific version of a resource, i.e., a version number."
-								},
-								{
-									"key": "Content-Type",
-									"value": "text/plain"
-								}
-							],
-							"cookie": [],
-							"body": "conent of requested file"
 						}
 					]
 				},
@@ -770,7 +761,7 @@
 							"header": [
 								{
 									"key": "Allow",
-									"value": "GET",
+									"value": "GET POST",
 									"description": "Valid methods for a specified resource (GET for read-only, POST for write-only, GET POST for the ability to read multiple times and also write)."
 								},
 								{
@@ -780,7 +771,7 @@
 								},
 								{
 									"key": "Expires",
-									"value": "Fri, 7 May 2021 13:12:47 GMT",
+									"value": "Fri, 3 Sep 2021 13:12:47 GMT",
 									"description": "Gives the date/time after which the response is considered stale so its new version cannot be posted (in \"HTTP-date\" format as defined by RFC 7231)."
 								},
 								{
@@ -854,7 +845,7 @@
 							"header": [
 								{
 									"key": "Allow",
-									"value": "GET",
+									"value": "GET POST",
 									"description": "Valid methods for a specified resource (GET for read-only, POST for write-only, GET POST for the ability to read multiple times and also write)."
 								},
 								{
@@ -864,7 +855,7 @@
 								},
 								{
 									"key": "Expires",
-									"value": "Fri, 7 May 2021 13:12:47 GMT",
+									"value": "Fri, 3 Sep 2021 13:12:47 GMT",
 									"description": "Gives the date/time after which the response is considered stale so its new version cannot be posted (in \"HTTP-date\" format as defined by RFC 7231)."
 								},
 								{
@@ -943,7 +934,7 @@
 								},
 								{
 									"key": "Expires",
-									"value": "Fri, 7 May 2021 13:12:47 GMT",
+									"value": "Fri, 3 Sep 2021 13:12:47 GMT",
 									"description": "Gives the date/time after which the response is considered stale so its new version cannot be posted (in \"HTTP-date\" format as defined by RFC 7231)."
 								}
 							],
@@ -1017,7 +1008,7 @@
 								},
 								{
 									"key": "Expires",
-									"value": "Fri, 7 May 2021 13:12:47 GMT",
+									"value": "Fri, 3 Sep 2021 13:12:47 GMT",
 									"description": "Gives the date/time after which the response is considered stale so its new version cannot be posted (in \"HTTP-date\" format as defined by RFC 7231)."
 								}
 							],
@@ -1091,7 +1082,7 @@
 								},
 								{
 									"key": "Expires",
-									"value": "Fri, 7 May 2021 13:12:47 GMT",
+									"value": "Fri, 3 Sep 2021 13:12:47 GMT",
 									"description": "Gives the date/time after which the response is considered stale so its new version cannot be posted (in \"HTTP-date\" format as defined by RFC 7231)."
 								}
 							],
@@ -1165,7 +1156,7 @@
 								},
 								{
 									"key": "Expires",
-									"value": "Fri, 7 May 2021 13:12:47 GMT",
+									"value": "Fri, 3 Sep 2021 13:12:47 GMT",
 									"description": "Gives the date/time after which the response is considered stale so its new version cannot be posted (in \"HTTP-date\" format as defined by RFC 7231)."
 								}
 							],
@@ -1239,7 +1230,7 @@
 								},
 								{
 									"key": "Expires",
-									"value": "Fri, 7 May 2021 13:12:47 GMT",
+									"value": "Fri, 3 Sep 2021 13:12:47 GMT",
 									"description": "Gives the date/time after which the response is considered stale so its new version cannot be posted (in \"HTTP-date\" format as defined by RFC 7231)."
 								}
 							],

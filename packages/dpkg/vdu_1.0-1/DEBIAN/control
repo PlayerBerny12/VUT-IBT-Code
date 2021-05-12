@@ -1,0 +1,6 @@
+Package: vdu
+Version: 1.0-1
+Architecture: amd64
+Description: VDU-APP for synchronizing data from VDU.
+Maintainer: "Jan Bernard" <xberna18@stud.fit.vutbr.cz>
+Depends: libfuse3-3

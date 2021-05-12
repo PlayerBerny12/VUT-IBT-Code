@@ -57,10 +57,11 @@ public:
 
     File(API &api, Database &database);
     ~File();
-    int download(const string &url);
+    int download(string url);
     int upload(string path);
     int check(string path);    
     int rename(string from, string to);
+    int remove(string path);
 };
 
 #endif

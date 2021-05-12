@@ -12,7 +12,7 @@
 
 #include "gtest/gtest.h"
 #include <map>
-#include "../src/api.h"
+#include "../../src/api.h"
 
 // Macro for testing if key exists in HTTP header (std::map<string, string>)
 #define TEST_HEADER_EXIST(header, key) \

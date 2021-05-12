@@ -1,3 +1,12 @@
+// ************************************************************************ //
+// **   Project: Application for controlled access                       ** //
+// **            to remote documents for GNU\Linux                       ** //
+// **   University: VUT FIT Brno                                         ** //
+// **   Authors: Jan Bernard                                             ** //
+// **   Created: 01.04.2021                                              ** //
+// **   Module: Notification - code                                      ** //
+// ************************************************************************ //
+
 #include "notification.h"
 
 /**
@@ -58,7 +67,7 @@ void Notification::notify(int message_code, bool error)
 
         // Sleep before exit
         if(error) 
-        {
+        {            
             usleep(5000000);
         }
     }
